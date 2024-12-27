@@ -6,14 +6,10 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-4">
-                @if (session()->has("success"))
-                <div class="alert alert-sucess">
-                    {{ session()->get("success") }}
-                </div>
-                @endif
-                @if (session()->has("error"))
-                <div class="alert alert-sucess">
-                    {{ session()->get("error") }}
+                @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show shadow-lg" role="alert" style="border-radius: 12px; padding: 20px; font-size: 16px;">
+                    <strong>Cadastro realizado com sucesso!</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif
                 <div class="card">

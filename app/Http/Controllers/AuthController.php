@@ -27,17 +27,17 @@ class AuthController extends Controller
     {
         $request->validate([
             "fullname" => "required",
-            "email" => "required",
-            "password" => "required",
-            "password_confirmation" => "required|same:password",
-            "phoneNumber" => "required"
+            "email" => "required|email|unique:users,email",
+            "phone_number" => "required|min:11",
+            "password" => "required|min:6",
+            "passwordConfirmation" => "required|same:password"
         ]);
 
         $user = new User();
         $user->name = $request->fullname;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->phone_number = $request->phoneNumber;
+        $user->phone_number = $request->phone_number;
         if ($user->save()) {
             return redirect()->route('login')->with('success', 'Cadastro realizado!');
         }

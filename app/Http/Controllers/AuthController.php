@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -15,7 +16,17 @@ class AuthController extends Controller
 
     public function loginPost(Request $request)
     {
+        $credentials = $request->validate([
+            "email" => "required|email",
+            "password" => "required"
+        ]);
 
+        if (FacadesAuth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/');
+        } else {
+            return redirect()->back()->with('error', 'Credenciais inválidas.');
+        }
     }
 
     public function register()

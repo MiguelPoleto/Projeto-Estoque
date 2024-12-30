@@ -12,6 +12,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif
+                @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show shadow-lg" role="alert" style="border-radius: 12px; padding: 20px; font-size: 16px;">
+                    <strong>Credenciais inválidas.</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
                 <div class="card">
                     <h3 class="card-header text-center">Login</h3>
                     <div class="card-body">
@@ -35,6 +41,9 @@
                             </div>
                             <div class="d-grid mx-auto">
                                 <button type="submit" class="btn btn-dark btn-block">Logar</button>
+                            </div>
+                            <div>
+                                <a href="{{ route("register") }}">Não possui uma conta? Cadastre-se</a>
                             </div>
                         </form>
                     </div>

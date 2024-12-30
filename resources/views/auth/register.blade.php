@@ -6,6 +6,12 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-4">
+                @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show shadow-lg" role="alert" style="border-radius: 12px; padding: 20px; font-size: 16px;">
+                    <strong>Ocorreu um erro ao realizar o cadastro!</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
                 <div class="card">
                     <h3 class="card-header text-center">Cadastro</h3>
                     <div class="card-body">
@@ -14,7 +20,7 @@
                             <div class="form-group mb-3">
                                 <input type="text" placeholder="Nome Completo"
                                     id="name" name="fullname" class="form-control"
-                                    value="{{ old('fullname') }}" 
+                                    value="{{ old('fullname') }}"
                                     required autofocus>
                             </div>
                             <div class="form-group mb-3">
@@ -27,9 +33,9 @@
                             </div>
                             <div class="form-group mb-3">
                                 <input type="tel" placeholder="Telefone"
-                                id="phone_number" name="phone_number" class="form-control"
-                                value="{{ old('phone_number') }}" maxlength="11" minlength="11"  onkeyup="phoneFormatted(this)"
-                                required autofocus>
+                                    id="phone_number" name="phone_number" class="form-control"
+                                    value="{{ old('phone_number') }}" maxlength="11" minlength="11" onkeyup="phoneFormatted(this)"
+                                    required autofocus>
                                 @error('phone_number')
                                 <span class="text-danger">{{ "Coloque um número válido!" }}</span>
                                 @enderror
@@ -53,6 +59,9 @@
                             <div class="d-grid mx-auto">
                                 <button type="submit" class="btn btn-success btn-block">Cadastrar</button>
                             </div>
+                            <div>
+                                <a href="{{ route("login") }}">Já possui uma conta? Entre.</a>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -62,15 +71,11 @@
 </main>
 
 <script>
-
-
     function phoneFormatted(input) {
         var phone = input.value.replace(/\D/g, '');
         phone = phone.replace(/(\d{2})(\d{5})(\d{4})/, '($1)$2-$3');
         input.value = phone;
     }
-
-
 </script>
 
 @endsection

@@ -32,9 +32,16 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    @if (Auth::check())
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route("dashboard") }}">Painel</a>
+                    </li>
+                    @endif
+                    @if (!Auth::check())
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ route("login") }}">Login</a>
                     </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route("about") }}">Sobre</a>
                     </li>
@@ -51,7 +58,12 @@
         <div class="container-fluid bg-light text-dark py-5 text-center">
             <h1>Bem-vindo ao StockMaster</h1>
             <p class="lead">Gerencie seu estoque com eficiência e simplicidade.</p>
-            <a href="#" class="btn btn-primary btn-lg">Acessar Sistema</a>
+            @if (Auth::check())
+            <a href="{{ route("dashboard") }}" class="btn btn-primary btn-lg">Acessar Sistema</a>
+            @endif
+            @if (!Auth::check())
+            <a href="{{ route("login") }}" class="btn btn-primary btn-lg">Acessar Sistema</a>
+            @endif
             <a href="{{ route("about") }}" class="btn btn-outline-primary btn-lg">Saiba Mais</a>
         </div>
 

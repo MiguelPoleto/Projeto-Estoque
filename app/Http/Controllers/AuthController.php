@@ -29,6 +29,12 @@ class AuthController extends Controller
         }
     }
 
+    public function logout()
+    {
+        FacadesAuth::logout();
+        return redirect()->route('login');
+    }
+
     public function register()
     {
         return view("auth.register");

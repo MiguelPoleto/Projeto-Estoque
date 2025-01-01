@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,6 +89,17 @@
         width: 100%;
     }
 
+    /* Profile button */
+    .profile {
+        margin-top: auto;
+        width: 100%;
+        text-align: center;
+    }
+
+    .profile a {
+        width: 100%;
+    }
+
     /* Main content */
     .main-content {
         margin-left: 250px;
@@ -151,6 +163,12 @@
                 <span class="text">Vendas</span>
             </a>
         </div>
+        <div class="profile">
+            <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">
+            <i class="fa-solid fa-user"></i>
+            <span class="text">Perfil</span>
+            </a>
+        </div>
         <div class="logout">
             <a href="{{ route('logout') }}" class="text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="fas fa-sign-out-alt"></i>
@@ -167,7 +185,7 @@
         @yield('content')
     </div>
 
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">

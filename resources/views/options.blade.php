@@ -5,7 +5,7 @@
 <body class="d-flex flex-column bg-light vh-100">
     <!-- Top Right Icons -->
     <div class="position-fixed top-0 end-0 m-3 top-icons" style="z-index: 1050;">
-        <a href="#" class="text-decoration-none me-3">
+        <a href="{{ route('profile') }}" class="text-decoration-none me-3">
             <i class="fas fa-user fa-2x text-dark"></i>
         </a>
         <a href="{{ route('logout') }}" class="text-decoration-none"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

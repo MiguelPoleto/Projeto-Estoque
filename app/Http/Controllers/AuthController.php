@@ -23,7 +23,7 @@ class AuthController extends Controller
 
         if (FacadesAuth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+            return redirect()->intended('/options');
         } else {
             return redirect()->back()->with('error', 'Credenciais inválidas.');
         }

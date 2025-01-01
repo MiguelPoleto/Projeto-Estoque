@@ -34,7 +34,7 @@
                 <ul class="navbar-nav ms-auto">
                     @if (Auth::check())
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route("dashboard") }}">Painel</a>
+                        <a class="nav-link active" href="{{ route("options") }}">Sistema</a>
                     </li>
                     @endif
                     @if (!Auth::check())
@@ -59,7 +59,7 @@
             <h1>Bem-vindo ao StockMaster</h1>
             <p class="lead">Gerencie seu estoque com eficiência e simplicidade.</p>
             @if (Auth::check())
-            <a href="{{ route("dashboard") }}" class="btn btn-primary btn-lg">Acessar Sistema</a>
+            <a href="{{ route("options") }}" class="btn btn-primary btn-lg">Acessar Sistema</a>
             @endif
             @if (!Auth::check())
             <a href="{{ route("login") }}" class="btn btn-primary btn-lg">Acessar Sistema</a>

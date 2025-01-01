@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name("home");
 Route::view('/sobre', 'about')->name("about");
 Route::view('/contato', 'contact')->name("contact");
+Route::view('/options', 'options')->name("options");
 
 Route::get('/login', [AuthController::class, "login"])->name("login");
 Route::post('/login', [AuthController::class, "loginPost"])->name("login.post");

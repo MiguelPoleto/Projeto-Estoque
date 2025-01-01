@@ -133,6 +133,10 @@
                 <i class="fas fa-home"></i>
                 <span class="text">Início</span>
             </a>
+            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                <i class="fa-solid fa-chart-simple"></i>
+                <span class="text">Painel</span>
+            </a>
             <a href="#" class="{{ request()->routeIs('stock') ? 'active' : '' }}">
                 <i class="fas fa-cogs"></i>
                 <span class="text">Estoque</span>
@@ -167,4 +171,4 @@
     }
 </script>
 
-@endsection 
+@endsection

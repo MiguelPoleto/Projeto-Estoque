@@ -23,7 +23,7 @@ class AuthController extends Controller
 
         if (FacadesAuth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/options');
+            return redirect()->intended('/opcoes');
         } else {
             return redirect()->back()->with('error', 'Credenciais inválidas.');
         }
@@ -32,7 +32,7 @@ class AuthController extends Controller
     public function logout()
     {
         FacadesAuth::logout();
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 
     public function register()

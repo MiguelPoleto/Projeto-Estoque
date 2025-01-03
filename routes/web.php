@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name("home");
@@ -15,8 +16,8 @@ Route::post('/logout', [AuthController::class, "logout"])->name("logout");
 Route::get('/cadastro', [AuthController::class, "register"])->name("register");
 Route::post('/cadastro', [AuthController::class, "registerPost"])->name("register.post");
 
-Route::get('/perfil', function () { return view('profile'); })->middleware(['auth'])->name('profile');
-// Route::get('/painel', function () { return view('dashboard'); })->middleware(['auth'])->name('dashboard');
+Route::get('/perfil', [ProfileController::class, "update"])->middleware(['auth'])->name('profile');
+Route::post('/perfil', [ProfileController::class, "updatePost"])->middleware(['auth'])->name('profile.update');
 
 
 Route::get('/painel', function () { return view('dashboard'); })->middleware(['auth'])->name('dashboard');

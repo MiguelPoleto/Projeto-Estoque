@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function update()
     {
         $user = Auth::user();
@@ -24,7 +30,7 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . Auth::id(),
-            'phone_number' => 'nullable|string|max:11',
+            'phone_number' => 'nullable|string|max:14',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'city' => 'nullable|string|max:100',
             'street' => 'nullable|string|max:100',
@@ -32,7 +38,7 @@ class ProfileController extends Controller
         ]);
 
         $user = Auth::user();
-
+        
         if (!$user) {
             return redirect()->route('login')->with('error', 'Usuário não encontrado');
         }

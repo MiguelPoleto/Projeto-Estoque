@@ -45,7 +45,7 @@
                             <input type="text" class="form-control mb-2" id="street" name="street" placeholder="Rua" value="{{ $user->street }}">
                         </div>
                         <div class="col-md-2">
-                            <input type="text" class="form-control mb-2" id="house_number" name="house_number" placeholder="Número" value="{{ $user->house_bumber }}">
+                            <input type="text" class="form-control mb-2" id="house_number" name="house_number" placeholder="Número" value="{{ $user->house_number }}">
                         </div>
                     </div>
                 </div>

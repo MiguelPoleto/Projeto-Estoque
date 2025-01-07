@@ -2,7 +2,30 @@
 @section("title", "Perfil")
 @section("content")
 
+
+<style>
+
+#success-alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+    transition: opacity 0.5s ease-in-out;
+    max-width: 90%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+</style>
+
 <div class="container mt-5">
+    @if (session('success'))
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show shadow-lg" role="alert" style="border-radius: 12px; padding: 20px; font-size: 16px; position: fixed; top: 20px; right: 20px; z-index: 1050;">
+        <strong>Perfil atualizado!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
     <div class="card">
         <div class="card-header bg-primary text-white text-center">
             <h3><i class="fas fa-user-edit"></i> Atualizar Perfil</h3>
@@ -59,5 +82,21 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    const alertBox = document.getElementById('success-alert');
+    if (alertBox) {
+        setTimeout(() => {
+            alertBox.style.opacity = '0';
+            setTimeout(() => alertBox.remove(), 500); 
+        }, 3000); 
+    }
+});
+
+
+</script>
 
 @endsection

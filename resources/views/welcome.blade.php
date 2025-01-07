@@ -56,12 +56,13 @@
     <!-- Hero Section -->
     <main>
         <div class="container-fluid bg-light text-dark py-5 text-center">
+            @if (Auth::check())
+            <h1>Bem-vindo {{ explode(' ', Auth::user()->name)[0] }}</h1>
+            <p class="lead">Gerencie seu estoque com eficiência e simplicidade.</p>
+            <a href="{{ route("options") }}" class="btn btn-primary btn-lg">Acessar Sistema</a>
+            @else
             <h1>Bem-vindo ao StockMaster</h1>
             <p class="lead">Gerencie seu estoque com eficiência e simplicidade.</p>
-            @if (Auth::check())
-            <a href="{{ route("options") }}" class="btn btn-primary btn-lg">Acessar Sistema</a>
-            @endif
-            @if (!Auth::check())
             <a href="{{ route("login") }}" class="btn btn-primary btn-lg">Acessar Sistema</a>
             @endif
             <a href="{{ route("about") }}" class="btn btn-outline-primary btn-lg">Saiba Mais</a>

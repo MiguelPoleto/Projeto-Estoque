@@ -28,13 +28,19 @@ class AuthController extends Controller
             return redirect()->back()->with('error', 'Credenciais inválidas.');
         }
     }
-
+    
     public function logout()
     {
         FacadesAuth::logout();
         return redirect()->route('home');
     }
-
+    
+    public function loggedIn()
+    {
+        $user = FacadesAuth::user();
+        return view('home', compact('user'));
+    }
+    
     public function register()
     {
         return view("auth.register");
@@ -60,5 +66,6 @@ class AuthController extends Controller
         }
         return redirect()->route('register')->with('error', 'Falha ao realizar cadastro.');
     }
+
     
 }

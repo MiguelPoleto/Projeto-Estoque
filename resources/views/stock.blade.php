@@ -3,14 +3,108 @@
 @section("content")
 
 <style>
-    #confirmationCard {
+    #confirmationCard,
+    #confirmationEditCard {
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        z-index: 1050;
-        width: 25rem;
         display: none;
+        z-index: 1050;
+        width: 24rem;
+        /* Ligeiramente maior para acomodar o layout */
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        padding: 2rem;
+        font-family: "Arial", sans-serif;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    /* Título em destaque */
+    #confirmationCard h4,
+    #confirmationEditCard h4 {
+        font-size: 1.5rem;
+        color: #333333;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        text-transform: uppercase;
+        border-bottom: 2px solid #007bff;
+        /* Linha decorativa */
+        padding-bottom: 0.5rem;
+    }
+
+    /* Informações centralizadas */
+    #confirmationCard p,
+    #confirmationEditCard p {
+        font-size: 1rem;
+        color: #555555;
+        margin: 0.5rem 0;
+        text-align: left;
+    }
+
+    /* Destaque nos valores */
+    #confirmationCard strong,
+    #confirmationEditCard strong {
+        color: #222222;
+        font-weight: bold;
+    }
+
+    /* Container para botões */
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+    }
+
+    /* Botão de cancelar */
+    .button-container .btn-cancel {
+        background-color: #dc3545;
+        /* Vermelho Bootstrap */
+        color: #ffffff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button-container .btn-cancel:hover {
+        background-color: #b02a37;
+        /* Vermelho mais escuro no hover */
+    }
+
+    /* Botão de confirmar */
+    .button-container .btn-confirm {
+        background-color: #28a745;
+        /* Verde Bootstrap */
+        color: #ffffff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button-container .btn-confirm:hover {
+        background-color: #218838;
+        /* Verde mais escuro no hover */
+    }
+
+    /* Animação para suavidade ao aparecer */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -60%);
+        }
+
+        to {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
     }
 </style>
 
@@ -108,15 +202,15 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="productCategory" class="form-label">
+                                        <label for="category" class="form-label">
                                             Categoria <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-select" id="productCategory" required>
+                                        <select class="form-select" id="category" required>
                                             <option selected>Selecione...</option>
-                                            <option value="Eletrônicos">Eletrônicos</option>
-                                            <option value="Móveis">Móveis</option>
-                                            <option value="Vestuário">Vestuário</option>
-                                            <option value="Outros">Outros</option>
+                                            <option value="eletronic">Eletrônicos</option>
+                                            <option value="furniture">Móveis</option>
+                                            <option value="raw_material">Vestuário</option>
+                                            <option value="others">Outros</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
@@ -195,6 +289,24 @@
         </div>
     </div>
 
+    <!-- Confirmation Card -->
+    <div class="card shadow-lg position-fixed top-50 start-50 translate-middle d-none" id="confirmationCard" style="width: 24rem; z-index: 1050;">
+        <div class="card-body">
+            <h4 class="card-title text-center text-uppercase mb-3" style="font-weight: bold; border-bottom: 2px solid #007bff; padding-bottom: 0.5rem;">
+                Confirmar Informações
+            </h4>
+            <p class="card-text">
+                <strong>Nome:</strong> <span id="confirmName"></span><br>
+                <strong>Categoria:</strong> <span id="confirmCategory"></span><br>
+                <strong>Quantidade:</strong> <span id="confirmAmount"></span><br>
+                <strong>Preço Unitário:</strong> R$ <span id="confirmPrice"></span>
+            </p>
+            <div class="d-flex justify-content-between mt-4">
+                <button class="btn btn-danger" id="cancelConfirmation">Cancelar</button>
+                <button class="btn btn-success" id="confirmSave">Confirmar</button>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Edit Product Modal -->
@@ -214,10 +326,10 @@
                             <input type="text" class="form-control" id="product_id" placeholder="Digite o ID do produto" required>
                         </div>
                         <div class="mb-3">
-                            <label for="productOption" class="form-label">
+                            <label for="product_option" class="form-label">
                                 Opção <span class="text-danger">*</span>
                             </label>
-                            <select class="form-select" id="productOption" required>
+                            <select class="form-select" id="product_option" required>
                                 <option value="" selected>Selecione...</option>
                                 <option value="1">Venda</option>
                                 <option value="2">Compra</option>
@@ -245,28 +357,32 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" id="saveProduct">Salvar</button>
+                    <button type="submit" class="btn btn-primary" id="saveSaleProduct">Salvar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Confirmation Card -->
-    <div class="card shadow-lg position-fixed bottom-0 end-0 m-3 d-none" id="confirmationCard" style="width: 20rem; z-index: 1050;">
+    <!-- Confirmation Sales Card -->
+    <div class="card shadow-lg position-fixed top-50 start-50 translate-middle d-none" id="confirmationEditCard" style="width: 24rem; z-index: 1050;">
         <div class="card-body">
-            <h5 class="card-title">Confirmar Informações</h5>
+            <h4 class="card-title text-center text-uppercase mb-3" style="font-weight: bold; border-bottom: 2px solid #007bff; padding-bottom: 0.5rem;">
+                Confirmar Informações
+            </h4>
             <p class="card-text">
-                <strong>Nome:</strong> <span id="confirmName"></span><br>
-                <strong>Categoria:</strong> <span id="confirmCategory"></span><br>
-                <strong>Quantidade:</strong> <span id="confirmAmount"></span><br>
-                <strong>Preço Unitário:</strong> R$ <span id="confirmPrice"></span><br>
+                <strong>ID:</strong> <span id="confirmID"></span><br>
+                <strong>Opção:</strong> <span id="confirmOption"></span><br>
+                <strong>Quantidade:</strong> <span id="confirmSaleAmount"></span><br>
+                <strong>Preço Unitário:</strong> R$ <span id="confirmSalePrice"></span><br>
+                <strong>Preço Total:</strong> R$ <span id="confirmTotalPrice"></span>
             </p>
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between mt-4">
                 <button class="btn btn-danger" id="cancelConfirmation">Cancelar</button>
                 <button class="btn btn-success" id="confirmSave">Confirmar</button>
             </div>
         </div>
     </div>
+
 
 </main>
 
@@ -281,62 +397,96 @@
     document.getElementById('sale_price').addEventListener('input', calculateTotalForSale);
 
     document.addEventListener("DOMContentLoaded", () => {
-        // Referências globais
         const confirmationCard = document.getElementById("confirmationCard");
+        const confirmationEditCard = document.getElementById("confirmationEditCard");
         const confirmName = document.getElementById("confirmName");
+        const confirmID = document.getElementById("confirmID");
+        const confirmOption = document.getElementById("confirmOption");
         const confirmCategory = document.getElementById("confirmCategory");
         const confirmAmount = document.getElementById("confirmAmount");
         const confirmPrice = document.getElementById("confirmPrice");
+        const confirmTotalPrice = document.getElementById("confirmTotalPrice");
 
         const handleModalConfirmation = (modalId) => {
             const modal = document.getElementById(modalId);
             const form = modal.querySelector("form");
 
-            // Captura os valores do formulário ativo
-            const name = form.querySelector("#name")?.value || "Não informado";
-            const category = form.querySelector("#productCategory")?.selectedOptions[0]?.text || "Não informado";
-            const amount = form.querySelector("#amount")?.value || "0";
-            const price = form.querySelector("#price")?.value || "0,00";
+            if (modalId === 'addProductModal') {
 
-            // Preenche o card de confirmação
-            confirmName.innerText = name;
-            confirmCategory.innerText = category;
-            confirmAmount.innerText = amount;
-            confirmPrice.innerText = price;
+                const name = form.querySelector("#name")?.value || "Não informado";
+                const category = form.querySelector("#category")?.selectedOptions[0]?.text || "Não informado";
+                const amount = form.querySelector("#amount")?.value || "0";
+                const price = form.querySelector("#price")?.value || "0,00";
 
-            // Fecha o modal e exibe o card de confirmação
-            modal.addEventListener(
-                "hidden.bs.modal",
-                () => {
+                confirmName.innerText = name;
+                confirmCategory.innerText = category;
+                confirmAmount.innerText = amount;
+                confirmPrice.innerText = price;
+
+                const bootstrapModal = bootstrap.Modal.getInstance(modal);
+                if (bootstrapModal) bootstrapModal.hide();
+
+                setTimeout(() => {
+                    const backdrops = document.querySelectorAll(".modal-backdrop");
+                    backdrops.forEach((backdrop) => backdrop.remove());
+
+                    confirmationCard.classList.remove("d-none");
                     confirmationCard.style.display = "block";
-                }, {
-                    once: true
-                }
-            );
-            bootstrap.Modal.getInstance(modal).hide();
+                }, 300);
+            } else {
+
+                const id = form.querySelector("#product_id")?.value || "Não informado";
+                const option = form.querySelector("#product_option")?.selectedOptions[0]?.text || "Não informado";
+                const amount = form.querySelector("#sale_amount")?.value || "0";
+                const price = form.querySelector("#sale_price")?.value || "0,00";
+                const totalPrice = form.querySelector("#sale_total_price")?.value || "0,00";
+
+                confirmID.innerText = id;
+                confirmOption.innerText = option;
+                confirmSaleAmount.innerText = amount;
+                confirmSalePrice.innerText = price;
+                confirmTotalPrice.innerText = totalPrice;
+
+                const bootstrapModal = bootstrap.Modal.getInstance(modal);
+                if (bootstrapModal) bootstrapModal.hide();
+
+                setTimeout(() => {
+                    const backdrops = document.querySelectorAll(".modal-backdrop");
+                    backdrops.forEach((backdrop) => backdrop.remove());
+
+                    confirmationEditCard.classList.remove("d-none");
+                    confirmationEditCard.style.display = "block";
+                }, 300);
+            }
+
         };
 
-        // Evento para salvar produto do modal de "Adicionar Produto"
-        document.getElementById("addProductModal").querySelector("#saveProduct").addEventListener("click", () => {
-            handleModalConfirmation("addProductModal");
-        });
 
-        // Evento para salvar produto do modal de "Venda / Compra"
-        document.getElementById("editProductModal").querySelector("#saveProduct").addEventListener("click", () => {
-            handleModalConfirmation("editProductModal");
-        });
+        const addProductSaveBtn = document.getElementById("addProductModal").querySelector("#saveProduct");
+        const editProductSaveBtn = document.getElementById("editProductModal").querySelector("#saveSaleProduct");
 
-        // Botão de cancelar confirmação
+        if (addProductSaveBtn) {
+            addProductSaveBtn.addEventListener("click", () => {
+                handleModalConfirmation("addProductModal");
+            });
+        }
+
+        if (editProductSaveBtn) {
+            editProductSaveBtn.addEventListener("click", () => {
+                handleModalConfirmation("editProductModal");
+            });
+        }
+
         document.getElementById("cancelConfirmation").addEventListener("click", () => {
+            confirmationCard.classList.add("d-none");
             confirmationCard.style.display = "none";
         });
 
-        // Botão de confirmar e salvar
         document.getElementById("confirmSave").addEventListener("click", () => {
             alert("Produto salvo com sucesso!");
+            confirmationCard.classList.add("d-none");
             confirmationCard.style.display = "none";
 
-            // Resetar formulários ativos (caso necessário)
             document.querySelectorAll("form").forEach((form) => form.reset());
         });
     });

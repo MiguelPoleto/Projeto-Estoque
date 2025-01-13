@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <title>@yield("title", "Projeto-Estoque")</title>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @stack('styles')
 </head>
 
 <style>
@@ -185,6 +187,8 @@
         @yield('content')
     </div>
 
+    <script type="module" src="{{ asset('js/app.js') }}"></script>
+    @stack('scripts')
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

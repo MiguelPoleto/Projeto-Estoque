@@ -2,112 +2,6 @@
 @section("title", "Estoque")
 @section("content")
 
-<style>
-    #confirmationCard,
-    #confirmationEditCard {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: none;
-        z-index: 1050;
-        width: 24rem;
-        /* Ligeiramente maior para acomodar o layout */
-        background-color: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-        padding: 2rem;
-        font-family: "Arial", sans-serif;
-        animation: fadeIn 0.3s ease-in-out;
-    }
-
-    /* Título em destaque */
-    #confirmationCard h4,
-    #confirmationEditCard h4 {
-        font-size: 1.5rem;
-        color: #333333;
-        font-weight: bold;
-        margin-bottom: 1.5rem;
-        text-align: center;
-        text-transform: uppercase;
-        border-bottom: 2px solid #007bff;
-        /* Linha decorativa */
-        padding-bottom: 0.5rem;
-    }
-
-    /* Informações centralizadas */
-    #confirmationCard p,
-    #confirmationEditCard p {
-        font-size: 1rem;
-        color: #555555;
-        margin: 0.5rem 0;
-        text-align: left;
-    }
-
-    /* Destaque nos valores */
-    #confirmationCard strong,
-    #confirmationEditCard strong {
-        color: #222222;
-        font-weight: bold;
-    }
-
-    /* Container para botões */
-    .button-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 1.5rem;
-    }
-
-    /* Botão de cancelar */
-    .button-container .btn-cancel {
-        background-color: #dc3545;
-        /* Vermelho Bootstrap */
-        color: #ffffff;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        font-size: 1rem;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .button-container .btn-cancel:hover {
-        background-color: #b02a37;
-        /* Vermelho mais escuro no hover */
-    }
-
-    /* Botão de confirmar */
-    .button-container .btn-confirm {
-        background-color: #28a745;
-        /* Verde Bootstrap */
-        color: #ffffff;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        font-size: 1rem;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .button-container .btn-confirm:hover {
-        background-color: #218838;
-        /* Verde mais escuro no hover */
-    }
-
-    /* Animação para suavidade ao aparecer */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translate(-50%, -60%);
-        }
-
-        to {
-            opacity: 1;
-            transform: translate(-50%, -50%);
-        }
-    }
-</style>
-
 <main>
     <div class="container-fluid p-3">
         <!-- Main Content -->
@@ -206,7 +100,7 @@
                                             Categoria <span class="text-danger">*</span>
                                         </label>
                                         <select class="form-select" id="category" required>
-                                            <option selected>Selecione...</option>
+                                            <option value="" selected>Selecione...</option>
                                             <option value="eletronic">Eletrônicos</option>
                                             <option value="furniture">Móveis</option>
                                             <option value="raw_material">Vestuário</option>
@@ -386,141 +280,12 @@
 
 </main>
 
-<script>
-    function calculateTotalForSale() {
-        const amount = parseFloat(document.getElementById('sale_amount').value) || 0;
-        const price = parseFloat(document.getElementById('sale_price').value) || 0;
-        const total = amount * price;
-        document.getElementById('sale_total_price').value = total.toFixed(2);
-    }
-    document.getElementById('sale_amount').addEventListener('input', calculateTotalForSale);
-    document.getElementById('sale_price').addEventListener('input', calculateTotalForSale);
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const confirmationCard = document.getElementById("confirmationCard");
-        const confirmationEditCard = document.getElementById("confirmationEditCard");
-        const confirmName = document.getElementById("confirmName");
-        const confirmID = document.getElementById("confirmID");
-        const confirmOption = document.getElementById("confirmOption");
-        const confirmCategory = document.getElementById("confirmCategory");
-        const confirmAmount = document.getElementById("confirmAmount");
-        const confirmPrice = document.getElementById("confirmPrice");
-        const confirmTotalPrice = document.getElementById("confirmTotalPrice");
-
-        const handleModalConfirmation = (modalId) => {
-            const modal = document.getElementById(modalId);
-            const form = modal.querySelector("form");
-
-            if (modalId === 'addProductModal') {
-
-                const name = form.querySelector("#name")?.value || "Não informado";
-                const category = form.querySelector("#category")?.selectedOptions[0]?.text || "Não informado";
-                const amount = form.querySelector("#amount")?.value || "0";
-                const price = form.querySelector("#price")?.value || "0,00";
-
-                confirmName.innerText = name;
-                confirmCategory.innerText = category;
-                confirmAmount.innerText = amount;
-                confirmPrice.innerText = price;
-
-                const bootstrapModal = bootstrap.Modal.getInstance(modal);
-                if (bootstrapModal) bootstrapModal.hide();
-
-                setTimeout(() => {
-                    const backdrops = document.querySelectorAll(".modal-backdrop");
-                    backdrops.forEach((backdrop) => backdrop.remove());
-
-                    confirmationCard.classList.remove("d-none");
-                    confirmationCard.style.display = "block";
-                }, 300);
-            } else {
-
-                const id = form.querySelector("#product_id")?.value || "Não informado";
-                const option = form.querySelector("#product_option")?.selectedOptions[0]?.text || "Não informado";
-                const amount = form.querySelector("#sale_amount")?.value || "0";
-                const price = form.querySelector("#sale_price")?.value || "0,00";
-                const totalPrice = form.querySelector("#sale_total_price")?.value || "0,00";
-
-                confirmID.innerText = id;
-                confirmOption.innerText = option;
-                confirmSaleAmount.innerText = amount;
-                confirmSalePrice.innerText = price;
-                confirmTotalPrice.innerText = totalPrice;
-
-                const bootstrapModal = bootstrap.Modal.getInstance(modal);
-                if (bootstrapModal) bootstrapModal.hide();
-
-                setTimeout(() => {
-                    const backdrops = document.querySelectorAll(".modal-backdrop");
-                    backdrops.forEach((backdrop) => backdrop.remove());
-
-                    confirmationEditCard.classList.remove("d-none");
-                    confirmationEditCard.style.display = "block";
-                }, 300);
-            }
-
-        };
-
-
-        const addProductSaveBtn = document.getElementById("addProductModal").querySelector("#saveProduct");
-        const editProductSaveBtn = document.getElementById("editProductModal").querySelector("#saveSaleProduct");
-
-        if (addProductSaveBtn) {
-            addProductSaveBtn.addEventListener("click", () => {
-                handleModalConfirmation("addProductModal");
-            });
-        }
-
-        if (editProductSaveBtn) {
-            editProductSaveBtn.addEventListener("click", () => {
-                handleModalConfirmation("editProductModal");
-            });
-        }
-
-        document.getElementById("cancelConfirmation").addEventListener("click", () => {
-            Swal.fire({
-                title: 'Cancelado!',
-                text: 'Ação desfeita com sucesso.',
-                icon: 'error',
-                confirmButtonText: 'Fechar',
-            }).then(() => {
-                location.reload();
-            });
-        });
-        document.getElementById("confirmSave").addEventListener("click", () => {
-            Swal.fire({
-                title: 'Produto Salvo!',
-                text: 'Seu produto foi salvo com sucesso.',
-                icon: 'success',
-                confirmButtonText: 'Fechar',
-            }).then(() => {
-                location.reload();
-            });
-        });
-
-        document.getElementById("cancelSaleConfirmation").addEventListener("click", () => {
-            Swal.fire({
-                title: 'Cancelado!',
-                text: 'Ação desfeita com sucesso.',
-                icon: 'error',
-                confirmButtonText: 'Fechar',
-            }).then(() => {
-                location.reload();
-            });
-        });
-        document.getElementById("confirmSaleSave").addEventListener("click", () => {
-            Swal.fire({
-                title: 'Ação Concluída!',
-                text: 'A venda ou compra foi registrada com sucesso.',
-                icon: 'success',
-                confirmButtonText: 'Fechar',
-            }).then(() => {
-                location.reload();
-            });
-        });
-    });
-</script>
-
-
-
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/stock.js') }}"></script>
+@endpush
+
+@push('styles')
+<link href="{{ asset('css/stock.css') }}" rel="stylesheet">
+@endpush

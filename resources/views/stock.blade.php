@@ -377,8 +377,8 @@
                 <strong>Preço Total:</strong> R$ <span id="confirmTotalPrice"></span>
             </p>
             <div class="d-flex justify-content-between mt-4">
-                <button class="btn btn-danger" id="cancelConfirmation">Cancelar</button>
-                <button class="btn btn-success" id="confirmSave">Confirmar</button>
+                <button class="btn btn-danger" id="cancelSaleConfirmation">Cancelar</button>
+                <button class="btn btn-success" id="confirmSaleSave">Confirmar</button>
             </div>
         </div>
     </div>
@@ -478,16 +478,45 @@
         }
 
         document.getElementById("cancelConfirmation").addEventListener("click", () => {
-            confirmationCard.classList.add("d-none");
-            confirmationCard.style.display = "none";
+            Swal.fire({
+                title: 'Cancelado!',
+                text: 'Ação desfeita com sucesso.',
+                icon: 'error',
+                confirmButtonText: 'Fechar',
+            }).then(() => {
+                location.reload();
+            });
+        });
+        document.getElementById("confirmSave").addEventListener("click", () => {
+            Swal.fire({
+                title: 'Produto Salvo!',
+                text: 'Seu produto foi salvo com sucesso.',
+                icon: 'success',
+                confirmButtonText: 'Fechar',
+            }).then(() => {
+                location.reload();
+            });
         });
 
-        document.getElementById("confirmSave").addEventListener("click", () => {
-            alert("Produto salvo com sucesso!");
-            confirmationCard.classList.add("d-none");
-            confirmationCard.style.display = "none";
-
-            document.querySelectorAll("form").forEach((form) => form.reset());
+        document.getElementById("cancelSaleConfirmation").addEventListener("click", () => {
+            Swal.fire({
+                title: 'Cancelado!',
+                text: 'Ação desfeita com sucesso.',
+                icon: 'error',
+                confirmButtonText: 'Fechar',
+            }).then(() => {
+                location.reload();
+            });
+        });
+        document.getElementById("confirmSaleSave").addEventListener("click", () => {
+            Swal.fire({
+                title: 'Ação Concluída!',
+                text: 'A venda ou compra foi registrada com sucesso.',
+                icon: 'success',
+                confirmButtonText: 'Fechar',
+            }).then(() => {
+                location.reload();
+            });
         });
     });
 </script>

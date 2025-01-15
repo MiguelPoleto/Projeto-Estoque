@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stocks', function (Blueprint $table) {
-            $table->id(); // ID auto-incremental
+            $table->id();
             $table->string('product_id')->unique(); // ID único do produto
             $table->string('name'); // Nome do produto
             $table->text('description')->nullable(); // Descrição detalhada
@@ -23,11 +23,10 @@ return new class extends Migration
             $table->string('category')->nullable(); // Categoria do produto
             $table->string('brand')->nullable(); // Marca do produto
             $table->string('location')->nullable(); // Localização no estoque
-            $table->integer('minimum_stock')->default(10); // Estoque mínimo
+            $table->integer('minimum_stock'); // Estoque mínimo
             $table->boolean('is_active')->default(true); // Produto ativo ou inativo
             $table->string('unit')->default('pcs'); // Unidade de medida (ex: pcs, kg, etc.)
-            $table->json('additional_info')->nullable(); // Informações adicionais em JSON
-            $table->timestamps(); // Colunas created_at e updated_at
+            $table->timestamps();
         });
     }
 

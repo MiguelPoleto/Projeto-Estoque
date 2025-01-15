@@ -31,15 +31,31 @@
                         <th>Ações</th>
                     </tr>
                 </thead>
+                @foreach($products as $product)
                 <tbody>
                     <!-- Example Item -->
                     <tr>
-                        <td>1</td>
-                        <td>Produto Exemplo</td>
-                        <td>Eletrônicos</td>
-                        <td>50</td>
-                        <td>120,00</td>
-                        <td>Ativo</td>
+                        <td>{{ $product->product_id }}</td>
+                        <td>{{ $product->name }}</td>
+                        <td>
+                            @switch($product->category)
+                                @case('eletronic')
+                                    Eletrônicos
+                                    @break
+                                @case('furniture')
+                                    Móveis
+                                    @break
+                                @case('raw_material')
+                                    Vestuário
+                                    @break
+                                @case('others')
+                                    Outros
+                                    @break
+                            @endswitch
+                        </td>
+                        <td>{{ $product->amount }}</td>
+                        <td>R$ {{ $product->price }}</td>
+                        <td>{{ $product->is_active == 1 ? "Ativo" : "Inativo" }}</td>
                         <td>
                             <button class="btn btn-info btn-sm">
                                 <i class="fas fa-eye"></i> Detalhes
@@ -54,6 +70,7 @@
                     </tr>
                     <!-- Additional items can go here -->
                 </tbody>
+                @endforeach
             </table>
         </div>
     </div>

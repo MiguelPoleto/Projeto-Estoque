@@ -57,4 +57,12 @@ class StockController extends Controller
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
+
+    public function listProducts()
+    {
+        $products = Stock::all();
+
+        
+        return view('stock', compact('products'));
+    }
 }

@@ -4,19 +4,16 @@
 
 
 <style>
-
-#success-alert {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1050;
-    transition: opacity 0.5s ease-in-out;
-    max-width: 90%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-
+    #success-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1050;
+        transition: opacity 0.5s ease-in-out;
+        max-width: 90%;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
 </style>
 
 <div class="container mt-5">
@@ -48,7 +45,9 @@
                 <!-- Telefone -->
                 <div class="mb-3">
                     <label for="phone_number" class="form-label"><i class="fas fa-phone"></i> Telefone</label>
-                    <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="Digite seu número de telefone" value="{{ $user->phone_number }}">
+                    <input type="tel" class="form-control" id="phone_number" name="phone_number" 
+                    placeholder="Digite seu número de telefone" value="{{ $user->phone_number }}"
+                    maxlength="14" minlength="11" onkeyup="phoneFormatted(this)">
                 </div>
 
                 <!-- Foto de Perfil -->
@@ -85,18 +84,22 @@
 
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const alertBox = document.getElementById('success-alert');
+        if (alertBox) {
+            setTimeout(() => {
+                alertBox.style.opacity = '0';
+                setTimeout(() => alertBox.remove(), 500);
+            }, 3000);
+        }
+    });
 
-document.addEventListener('DOMContentLoaded', function () {
-    const alertBox = document.getElementById('success-alert');
-    if (alertBox) {
-        setTimeout(() => {
-            alertBox.style.opacity = '0';
-            setTimeout(() => alertBox.remove(), 500); 
-        }, 3000); 
+
+    function phoneFormatted(input) {
+        var phone = input.value.replace(/\D/g, '');
+        phone = phone.replace(/(\d{2})(\d{5})(\d{4})/, '($1)$2-$3');
+        input.value = phone;
     }
-});
-
-
 </script>
 
 @endsection

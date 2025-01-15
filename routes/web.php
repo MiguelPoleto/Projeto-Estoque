@@ -20,7 +20,7 @@ Route::post('/cadastro', [AuthController::class, "registerPost"])->name("registe
 Route::get('/perfil', [ProfileController::class, "update"])->middleware(['auth'])->name('profile');
 Route::post('/perfil', [ProfileController::class, "updatePost"])->middleware(['auth'])->name('profile.update');
 
-Route::get('/estoque', function () { return view('stock'); })->middleware(['auth'])->name('stock');
+Route::get('/estoque', [StockController::class, 'listProducts'])->middleware(['auth'])->name('stock');
 Route::post('/estoque', [StockController::class, "newProduct"])->middleware(['auth'])->name('stock.new');
 
 Route::get('/painel', function () { return view('dashboard'); })->middleware(['auth'])->name('dashboard');

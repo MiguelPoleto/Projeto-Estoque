@@ -10,7 +10,9 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->string('product_id')->unique(); // ID único do produto
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // ID do usuário responsável
+            $table->string('product_id'); // ID único do produto
+            $table->unique(['product_id', 'user_id']); // Chave única para evitar duplicidade
             $table->string('name'); // Nome do produto
             $table->text('description')->nullable(); // Descrição detalhada
             $table->integer('amount')->default(0); // Quantidade em estoque

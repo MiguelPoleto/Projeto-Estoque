@@ -11,7 +11,7 @@ class StockController extends Controller
     {
 
         $request->validate([
-            "product_id" => "required|unique:stocks,product_id",
+            "product_id" => "required|unique:stocks,product_id,NULL,id,user_id," . auth()->id(),
             "name" => "required|string",
             "category" => "required|string",
             "unit" => "required|string",
@@ -48,6 +48,8 @@ class StockController extends Controller
             $product->location = $request->location;
             $product->minimum_stock = $request->minimum_stock;
             $product->unit = $request->unit;
+
+            $product->user_id = auth()->check() ? auth()->id() : null;
     
             $product->save();
     
@@ -60,7 +62,7 @@ class StockController extends Controller
 
     public function listProducts()
     {
-        $products = Stock::all();
+        $products = Stock::where('user_id', auth()->id())->get();
 
         
         return view('stock', compact('products'));

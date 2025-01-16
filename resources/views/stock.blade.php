@@ -39,18 +39,18 @@
                         <td>{{ $product->name }}</td>
                         <td>
                             @switch($product->category)
-                                @case('eletronic')
-                                    Eletrônicos
-                                    @break
-                                @case('furniture')
-                                    Móveis
-                                    @break
-                                @case('raw_material')
-                                    Vestuário
-                                    @break
-                                @case('others')
-                                    Outros
-                                    @break
+                            @case('eletronic')
+                            Eletrônicos
+                            @break
+                            @case('furniture')
+                            Móveis
+                            @break
+                            @case('raw_material')
+                            Vestuário
+                            @break
+                            @case('others')
+                            Outros
+                            @break
                             @endswitch
                         </td>
                         <td>{{ $product->amount }}</td>
@@ -101,8 +101,8 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="product_id" class="form-label">ID do Produto <span class="text-danger">*</span></label>
-                                        <input type="text" 
-                                                class="form-control" id="product_id" name="product_id" placeholder="Digite o ID do produto" required>
+                                        <input type="text"
+                                            class="form-control" id="product_id" name="product_id" placeholder="Digite o ID do produto" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="name" class="form-label">Nome do Produto <span class="text-danger">*</span></label>
@@ -141,7 +141,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="price" class="form-label">Preço Unitário (R$) <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="price" name="price" placeholder="Digite o preço unitário" required>
+                                        <input type="number" step="0.01" class="form-control" id="price" name="price" placeholder="Digite o preço unitário" required>
                                     </div>
                                 </div>
                             </div>
@@ -166,13 +166,13 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="supplier_contact" class="form-label">Contato do Fornecedor</label>
-                                    <input type="tel" class="form-control" id="supplier_contact" name="supplier_contact" 
-                                    placeholder="Digite o contato do fornecedor" maxlength="11" minlength="11" onkeyup="phoneFormatted(this)">
+                                    <input type="tel" class="form-control" id="supplier_contact" name="supplier_contact"
+                                        placeholder="Digite o contato do fornecedor" maxlength="11" minlength="11" onkeyup="phoneFormatted(this)">
                                 </div>
                                 <div class="mb-3">
                                     <label for="brand" class="form-label">Marca</label>
-                                    <input type="text" class="form-control" id="brand" name="brand" 
-                                    placeholder="Digite a marca do produto">
+                                    <input type="text" class="form-control" id="brand" name="brand"
+                                        placeholder="Digite a marca do produto">
                                 </div>
                                 <div class="mb-3">
                                     <label for="location" class="form-label">Localização no Estoque</label>
@@ -256,6 +256,10 @@
         phone = phone.replace(/(\d{2})(\d{5})(\d{4})/, '($1)$2-$3');
         input.value = phone;
     }
+
+    document.getElementById("price").addEventListener("change", function() {
+        this.value = parseFloat(this.value).toFixed(2);
+    });
 </script>
 
 @endsection

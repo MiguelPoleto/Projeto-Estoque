@@ -27,6 +27,7 @@ class Stock extends Model
         'is_active',
         'unit',
         'additional_info',
+        'user_id',
     ];
 
     public static function boot()
@@ -36,5 +37,10 @@ class Stock extends Model
         static::saving(function ($stock) {
             $stock->total_price = $stock->amount * $stock->price;
         });
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

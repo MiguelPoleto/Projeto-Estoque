@@ -1,13 +1,3 @@
-function calculateTotalForSale() {
-    const amount = parseFloat(document.getElementById('sale_amount').value) || 0;
-    const price = parseFloat(document.getElementById('sale_price').value) || 0;
-    const total = amount * price;
-    document.getElementById('sale_total_price').value = total.toFixed(2);
-}
-document.getElementById('sale_amount').addEventListener('input', calculateTotalForSale);
-document.getElementById('sale_price').addEventListener('input', calculateTotalForSale);
-
-
 function validateForm(form) {
     const isValid = form.checkValidity();
     if (!isValid) {
@@ -20,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const handleModalSave = (modalId) => {
         const modal = document.getElementById(modalId);
         const form = modal.querySelector("form");
-
+        
         if (!validateForm(form)) {
             console.error("Formulário inválido.");
             return;
@@ -30,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData(form);
         const url = form.getAttribute("action");
         const method = form.getAttribute("method");
-
+        
         fetch(url, {
             method: method,
             body: formData,
@@ -38,15 +28,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 "X-Requested-With": "XMLHttpRequest",
             },
         })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    Swal.fire({
-                        title: "Sucesso!",
-                        text: "Ação concluída com sucesso.",
-                        icon: "success",
-                        confirmButtonText: "Fechar",
-                    }).then(() => {
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                Swal.fire({
+                    title: "Sucesso!",
+                    text: "Ação concluída com sucesso.",
+                    icon: "success",
+                    confirmButtonText: "Fechar",
+                }).then(() => {
                         modal.querySelector("form").reset();
                         modal.classList.remove("show");
                         document.location.reload();
@@ -69,26 +59,36 @@ document.addEventListener("DOMContentLoaded", () => {
                     confirmButtonText: "Fechar",
                 });
             });
-    };
-
-    document.querySelectorAll("form").forEach((form) => {
-        form.addEventListener("submit", (event) => {
-            event.preventDefault();
+        };
+        
+        document.querySelectorAll("form").forEach((form) => {
+            form.addEventListener("submit", (event) => {
+                event.preventDefault();
+            });
         });
+        
+        const addProductSaveBtn = document.getElementById("addProductModal")?.querySelector("#saveProduct");
+        const saleProductSaveBtn = document.getElementById("saleProductModal")?.querySelector("#saveSaleProduct");
+        
+        if (addProductSaveBtn) {
+            addProductSaveBtn.addEventListener("click", () => {
+                handleModalSave("addProductModal");
+            });
+        }
+        
+        if (saleProductSaveBtn) {
+            saleProductSaveBtn.addEventListener("click", () => {
+                handleModalSave("saleProductModal");
+            });
+        }
     });
+    
 
-    const addProductSaveBtn = document.getElementById("addProductModal")?.querySelector("#saveProduct");
-    const editProductSaveBtn = document.getElementById("editProductModal")?.querySelector("#saveSaleProduct");
-
-    if (addProductSaveBtn) {
-        addProductSaveBtn.addEventListener("click", () => {
-            handleModalSave("addProductModal");
-        });
+    function calculateTotalForSale() {
+        const amount = parseFloat(document.getElementById('sale_amount').value) || 0;
+        const price = parseFloat(document.getElementById('sale_price').value) || 0;
+        const total = amount * price;
+        document.getElementById('sale_total_price').value = total.toFixed(2);
     }
-
-    if (editProductSaveBtn) {
-        editProductSaveBtn.addEventListener("click", () => {
-            handleModalSave("editProductModal");
-        });
-    }
-});
+    document.getElementById('sale_amount').addEventListener('input', calculateTotalForSale);
+    document.getElementById('sale_price').addEventListener('input', calculateTotalForSale);

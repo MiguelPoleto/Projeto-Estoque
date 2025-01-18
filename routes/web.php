@@ -22,6 +22,7 @@ Route::post('/perfil', [ProfileController::class, "updatePost"])->middleware(['a
 
 Route::get('/estoque', [StockController::class, 'listProducts'])->middleware(['auth'])->name('stock');
 Route::post('/estoque', [StockController::class, "newProduct"])->middleware(['auth'])->name('stock.new');
+Route::delete('/estoque', [StockController::class, "deleteProduct"])->middleware(['auth'])->name('stock.delete');
 
 Route::get('/painel', function () { return view('dashboard'); })->middleware(['auth'])->name('dashboard');
 Route::get('/vendas', function () { return view('sales'); })->middleware(['auth'])->name('sales');

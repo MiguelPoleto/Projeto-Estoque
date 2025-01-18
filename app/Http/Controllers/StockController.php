@@ -32,7 +32,7 @@ class StockController extends Controller
 
         try {
             $product = new Stock();
-    
+
             $product->product_id = $request->product_id;
             $product->name = $request->name;
             $product->description = $request->description;
@@ -50,9 +50,9 @@ class StockController extends Controller
             $product->unit = $request->unit;
 
             $product->user_id = auth()->check() ? auth()->id() : null;
-    
+
             $product->save();
-    
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
 
@@ -64,7 +64,28 @@ class StockController extends Controller
     {
         $products = Stock::where('user_id', auth()->id())->get();
 
-        
+
         return view('stock', compact('products'));
+    }
+
+    public function saleProduct() {}
+
+    public function detail() {}
+
+    public function editProduct() {}
+
+    public function deleteProduct()
+    {
+        dd("teste");
+        $product = Stock::where('user_id', auth()->id())
+            ->where('product_id', request('product_id'))
+            ->first();
+
+        if ($product) {
+            $product->delete();
+            return redirect()->route('stock')->with('success', 'Produto deletado com sucesso');
+        }
+
+        return redirect()->route('stock')->with('error', 'Produto não encontrado');
     }
 }

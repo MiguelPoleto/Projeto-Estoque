@@ -11,7 +11,7 @@
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">
                     <i class="fas fa-plus"></i> Adicionar Produto
                 </button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saleProductModal">
                     <i class="fas fa-plus"></i> Venda / Compra
                 </button>
             </div>
@@ -63,9 +63,14 @@
                             <button class="btn btn-primary btn-sm">
                                 <i class="fas fa-edit"></i> Editar
                             </button>
-                            <button class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i> Remover
-                            </button>
+                            <form action="{{ route('stock.delete') }}" method="POST" style="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Remover
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     <!-- Additional items can go here -->
@@ -194,12 +199,12 @@
         </div>
     </div>
 
-    <!-- Edit Product Modal -->
-    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <!-- Sale Product Modal -->
+    <div class="modal fade" id="saleProductModal" tabindex="-1" aria-labelledby="saleProductModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editProductModalLabel">Venda / Compra de Produto</h5>
+                    <h5 class="modal-title" id="saleProductModalLabel">Venda / Compra de Produto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">

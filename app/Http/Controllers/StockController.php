@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stock;
+use Exception;
 use Illuminate\Http\Request;
 
 class StockController extends Controller
@@ -55,7 +56,6 @@ class StockController extends Controller
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
-
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
@@ -68,24 +68,24 @@ class StockController extends Controller
         return view('stock', compact('products'));
     }
 
-    public function saleProduct() {}
+    // public function saleProduct() {}
 
-    public function detail() {}
+    // public function detail() {}
 
-    public function editProduct() {}
+    // public function editProduct() {}
 
     public function deleteProduct()
     {
-        dd("teste");
-        $product = Stock::where('user_id', auth()->id())
-            ->where('product_id', request('product_id'))
-            ->first();
+        try {
+            $product = Stock::where('user_id', auth()->id())
+                ->where('product_id', request('product_id'))
+                ->first();
 
-        if ($product) {
             $product->delete();
-            return redirect()->route('stock')->with('success', 'Produto deletado com sucesso');
-        }
 
-        return redirect()->route('stock')->with('error', 'Produto não encontrado');
+            return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 }

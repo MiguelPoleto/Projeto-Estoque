@@ -63,7 +63,7 @@
                             <button class="btn btn-primary btn-sm">
                                 <i class="fas fa-edit"></i> Editar
                             </button>
-                            <form action="{{ route('stock.delete') }}" method="POST" style="d-inline">
+                            <form action="{{ route('stock.delete') }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="product_id" value="{{ $product->product_id }}">

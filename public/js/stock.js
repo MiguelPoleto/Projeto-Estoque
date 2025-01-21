@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     };
 
+    // Evitar a duplicação de eventos
     document.querySelectorAll("form").forEach((form) => {
         form.addEventListener("submit", (event) => {
             event.preventDefault();
@@ -103,10 +104,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
         });
+
+        //Fechar os modals corretamente
+        const modals = document.querySelectorAll(".modal");
+
+        modals.forEach((modal) => {
+            modal.addEventListener("hidden.bs.modal", () => {
+                if (form) {
+                    form.reset();
+                    form.classList.remove("was-validated");
+                }
+            });
+        });
     });
 
     const addProductSaveBtn = document.getElementById("addProductModal")?.querySelector("#saveProduct");
-    const saleProductSaveBtn = document.getElementById("saleProductModal")?.querySelector("#saveSaleProduct");
+    const buyProductSaveBtn = document.getElementById("buyProductModal")?.querySelector("#saveBuyProduct");
+    const sellProductSaveBtn = document.getElementById("sellProductModal")?.querySelector("#saveSellProduct");
 
     if (addProductSaveBtn) {
         addProductSaveBtn.addEventListener("click", () => {
@@ -114,19 +128,35 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    if (saleProductSaveBtn) {
-        saleProductSaveBtn.addEventListener("click", () => {
-            handleModalSave("saleProductModal");
+    if (buyProductSaveBtn) {
+        buyProductSaveBtn.addEventListener("click", () => {
+            handleModalSave("buyProductModal");
+        });
+    }
+
+    if (sellProductSaveBtn) {
+        sellProductSaveBtn.addEventListener("click", () => {
+            handleModalSave("sellProductModal");
         });
     }
 });
 
 
 function calculateTotalForSale() {
-    const amount = parseFloat(document.getElementById('sale_amount').value) || 0;
-    const price = parseFloat(document.getElementById('sale_price').value) || 0;
-    const total = amount * price;
-    document.getElementById('sale_total_price').value = total.toFixed(2);
+    const buyAmount = parseFloat(document.getElementById('buy_amount').value) || 0;
+    const buyPrice = parseFloat(document.getElementById('buy_price').value) || 0;
+    const sellAmount = parseFloat(document.getElementById('sell_amount').value) || 0;
+    const sellPrice = parseFloat(document.getElementById('sell_price').value) || 0;
+    
+    if (buyAmount > 0) {
+        const total = buyAmount * buyPrice;
+        document.getElementById('buy_total_price').value = total.toFixed(2);
+    } else if (sellAmount > 0) {
+        const total = sellAmount * sellPrice;
+        document.getElementById('sell_total_price').value = total.toFixed(2);
+    }
 }
-document.getElementById('sale_amount').addEventListener('input', calculateTotalForSale);
-document.getElementById('sale_price').addEventListener('input', calculateTotalForSale);
+document.getElementById('buy_amount').addEventListener('input', calculateTotalForSale);
+document.getElementById('buy_price').addEventListener('input', calculateTotalForSale);
+document.getElementById('sell_amount').addEventListener('input', calculateTotalForSale);
+document.getElementById('sell_price').addEventListener('input', calculateTotalForSale);

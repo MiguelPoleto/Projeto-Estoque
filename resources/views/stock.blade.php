@@ -8,11 +8,14 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="mb-0">Estoque</h3>
             <div>
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
                     <i class="fas fa-plus"></i> Adicionar Produto
                 </button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saleProductModal">
-                    <i class="fas fa-plus"></i> Venda / Compra
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#buyProductModal">
+                    <i class="fas fa-plus"></i> Compra
+                </button>
+                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#sellProductModal">
+                    <i class="fas fa-plus"></i> Venda
                 </button>
             </div>
         </div>
@@ -26,7 +29,7 @@
                         <th>Nome do Produto</th>
                         <th>Categoria</th>
                         <th>Quantidade</th>
-                        <th>Preço Unitário (R$)</th>
+                        <th>Preço Médio (un)</th>
                         <th>Situação</th>
                         <th>Ações</th>
                     </tr>
@@ -199,16 +202,18 @@
         </div>
     </div>
 
-    <!-- Sale Product Modal -->
-    <div class="modal fade" id="saleProductModal" tabindex="-1" aria-labelledby="saleProductModalLabel" aria-hidden="true">
+    <!-- Buy Product Modal -->
+    <div class="modal fade" id="buyProductModal" tabindex="-1" aria-labelledby="buyProductModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="saleProductModalLabel">Venda / Compra de Produto</h5>
+                    <h5 class="modal-title" id="buyProductModalLabel">Compra de Produtos</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form form action="{{ route('stock.buy') }}" method="POST">
+                        @csrf
+                        @method('PUT')
                         <div class="mb-3">
                             <label for="product_id" class="form-label">
                                 ID do Produto <span class="text-danger">*</span>
@@ -216,38 +221,74 @@
                             <input type="text" class="form-control" id="product_id" name="product_id" placeholder="Digite o ID do produto" required>
                         </div>
                         <div class="mb-3">
-                            <label for="product_option" class="form-label">
-                                Opção <span class="text-danger">*</span>
-                            </label>
-                            <select class="form-select" id="product_option" name="product_option" required>
-                                <option value="" selected>Selecione...</option>
-                                <option value="Sell">Venda</option>
-                                <option value="Buy">Compra</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
                             <label for="sale_amount" class="form-label">
                                 Quantidade <span class="text-danger">*</span>
                             </label>
-                            <input type="number" class="form-control" id="sale_amount" name="sale_amount" min="1" placeholder="Digite a quantidade" required>
+                            <input type="number" class="form-control" id="buy_amount" name="buy_amount" min="1" placeholder="Digite a quantidade" required>
                         </div>
                         <div class="mb-3">
                             <label for="sale_price" class="form-label">
-                                Preço Unitário (R$) <span class="text-danger">*</span>
+                                Preço Unitário de Compra (R$) <span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control" id="sale_price" name="sale_price" placeholder="Digite o preço unitário" required>
+                            <input type="text" class="form-control" id="buy_price" name="buy_price" placeholder="Digite o preço unitário" required>
                         </div>
                         <div class="mb-3">
                             <label for="sale_total_price" class="form-label">
                                 Preço Total (R$)
                             </label>
-                            <input type="text" class="form-control" id="sale_total_price" placeholder="Calculado automaticamente" readonly>
+                            <input type="text" class="form-control" id="buy_total_price" placeholder="Calculado automaticamente" readonly>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="saveSaleProduct">Salvar</button>
+                    <button type="button" class="btn btn-primary" id="saveBuyProduct">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sell Product Modal -->
+    <div class="modal fade" id="sellProductModal" tabindex="-1" aria-labelledby="sellProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sellProductModalLabel">Venda de Produto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <label for="product_id" class="form-label">
+                                ID do Produto <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="product_id" name="product_id" placeholder="Digite o ID do produto" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sale_amount" class="form-label">
+                                Quantidade <span class="text-danger">*</span>
+                            </label>
+                            <input type="number" class="form-control" id="sell_amount" name="sell_amount" min="1" placeholder="Digite a quantidade" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sale_price" class="form-label">
+                                Preço Unitário de Venda(R$) <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="sell_price" name="sell_price" placeholder="Digite o preço unitário" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sale_total_price" class="form-label">
+                                Preço Total (R$)
+                            </label>
+                            <input type="text" class="form-control" id="sell_total_price" placeholder="Calculado automaticamente" readonly>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveSellProduct">Salvar</button>
                 </div>
             </div>
         </div>

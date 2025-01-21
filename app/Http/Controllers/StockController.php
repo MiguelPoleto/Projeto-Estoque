@@ -68,7 +68,15 @@ class StockController extends Controller
         return view('stock', compact('products'));
     }
 
-    // public function saleProduct() {}
+    public function buyProduct()
+    {
+        dd("Teste compra");
+    }
+
+    public function sellProduct()
+    {
+        dd("Teste Venda");
+    }
 
     // public function detail() {}
 

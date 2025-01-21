@@ -218,7 +218,17 @@
                             <label for="product_id" class="form-label">
                                 ID do Produto <span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control" id="product_id" name="product_id" placeholder="Digite o ID do produto" required>
+                            <select class="form-control" id="product_id" name="product_id" required>
+                                <option value="">Selecione um produto</option>
+                                @foreach ($products as $product)
+                                <option value="{{ $product->product_id }}">{{ $product->product_id }} - {{ $product->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <p><strong>Quantidade em estoque:</strong> <span id="product_amount">-</span></p>
+                            <p><strong>Preço médio:</strong> R$ <span id="product_price">-</span></p>
+                            <p><strong>Categoria:</strong> <span id="product_category">-</span></p>
                         </div>
                         <div class="mb-3">
                             <label for="sale_amount" class="form-label">
@@ -234,7 +244,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="sale_total_price" class="form-label">
-                                Preço Total (R$)
+                                Preço Total da Compra(R$)
                             </label>
                             <input type="text" class="form-control" id="buy_total_price" placeholder="Calculado automaticamente" readonly>
                         </div>
@@ -264,7 +274,12 @@
                             <label for="product_id" class="form-label">
                                 ID do Produto <span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control" id="product_id" name="product_id" placeholder="Digite o ID do produto" required>
+                            <select class="form-control" id="product_id" name="product_id" required>
+                                <option value="">Selecione um produto</option>
+                                @foreach ($products as $product)
+                                <option value="{{ $product->product_id }}">{{ $product->product_id }} - {{ $product->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="sale_amount" class="form-label">
@@ -279,8 +294,8 @@
                             <input type="text" class="form-control" id="sell_price" name="sell_price" placeholder="Digite o preço unitário" required>
                         </div>
                         <div class="mb-3">
-                            <label for="sale_total_price" class="form-label">
-                                Preço Total (R$)
+                            <label for="sell_total_price" class="form-label">
+                                Preço Total da Venda(R$)
                             </label>
                             <input type="text" class="form-control" id="sell_total_price" placeholder="Calculado automaticamente" readonly>
                         </div>

@@ -139,6 +139,31 @@ document.addEventListener("DOMContentLoaded", () => {
             handleModalSave("sellProductModal");
         });
     }
+
+
+    // Responsividade dinâmica de compra / venda
+    const productSelect = document.getElementById("product_id");
+    const amountInfo = document.getElementById("product_amount");
+    const priceInfo = document.getElementById("product_price");
+    const categoryInfo = document.getElementById("product_category");
+
+    productSelect.addEventListener("change", () => {
+        const selectedoption = this.options[this.selectedIndex];
+
+        if (selectedoption) {
+            const amount = selectedoption.getAttribute("data-amount");
+            const price = selectedoption.getAttribute("data-price");
+            const category = selectedoption.getAttribute("data-category");
+
+            amountInfo.value = amount ? amount : "";
+            priceInfo.value = price ? parseFloat(price).toFixed(2) : "";
+            categoryInfo.value = category ? category : "";
+        } else {
+            amountInfo.value = "-";
+            priceInfo.value = "-";
+            categoryInfo.value = "-";
+        }
+    });
 });
 
 

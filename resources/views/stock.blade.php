@@ -267,7 +267,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST">
+                    <form action="{{ route('stock.sell') }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">

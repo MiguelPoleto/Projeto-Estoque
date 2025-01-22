@@ -154,6 +154,7 @@ function updateProductInfo(productId, modalPrefix) {
     const priceInput = document.getElementById(`${modalPrefix}_product_price`);
     const minimumInfo = productInfoDiv.querySelector('.product-minimum');
     const totalPriceInfo = productInfoDiv.querySelector('.product-total-price');
+    const amountInput = document.getElementById(`${modalPrefix}_amount`);
 
     if (productId) {
         fetch(`/estoque/produto/${productId}`, {
@@ -170,6 +171,13 @@ function updateProductInfo(productId, modalPrefix) {
                     minimumInfo.innerText = data.product.minimum_stock || '';
                     totalPriceInfo.innerText = data.product.total_price ? parseFloat(data.product.total_price).toFixed(2) : '';
                     productInfoDiv.style.display = 'block';
+
+                    if (modalPrefix === 'sell') {
+                        const maxAmount = data.product.amount - data.product.minimum_stock;
+                        amountInput.max = maxAmount;
+                        amountInput.setAttribute('max', maxAmount);
+                    }
+
                 } else {
                     alert('Erro ao buscar informações do produto.');
                 }
@@ -194,17 +202,19 @@ document.getElementById("product_id_sell").addEventListener("change", (e) => {
 
 function calculateTotalForSale() {
     const buyAmount = parseFloat(document.getElementById('buy_amount').value) || 0;
-    const price = parseFloat(document.getElementById('product_price').value) || 0;
+    const buyPrice = parseFloat(document.getElementById('buy_product_price').value) || 0;
+    const sellPrice = parseFloat(document.getElementById('sell_product_price').value) || 0;
     const sellAmount = parseFloat(document.getElementById('sell_amount').value) || 0;
 
     if (buyAmount > 0) {
-        const total = buyAmount * price;
+        const total = buyAmount * buyPrice;
         document.getElementById('buy_total_price').value = total.toFixed(2);
     } else if (sellAmount > 0) {
-        const total = sellAmount * price;
+        const total = sellAmount * sellPrice;
         document.getElementById('sell_total_price').value = total.toFixed(2);
     }
 }
 document.getElementById('buy_amount').addEventListener('input', calculateTotalForSale);
-document.getElementById('product_price').addEventListener('input', calculateTotalForSale);
+document.getElementById('buy_product_price').addEventListener('input', calculateTotalForSale);
+document.getElementById('sell_product_price').addEventListener('input', calculateTotalForSale);
 document.getElementById('sell_amount').addEventListener('input', calculateTotalForSale);

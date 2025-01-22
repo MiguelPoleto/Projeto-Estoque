@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sale;
 use App\Models\Stock;
+use Dotenv\Exception\ValidationException;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -98,9 +100,56 @@ class StockController extends Controller
         dd("Teste compra");
     }
 
-    public function sellProduct()
+    public function sellProduct(Request $request)
     {
-        dd("Teste Venda");
+        dd($request->all());
+        try {
+            $request->validate([
+                "product_id" => "required|exists:stocks,product_id,user_id," . auth()->id(),
+                "amount" => "required|numeric|min:1",
+                'product_price' => 'required|numeric|min:0',
+            ]);
+
+            $product = Stock::where('user_id', auth()->id())
+                ->where('product_id', $request->product_id)
+                ->first();
+
+            if (!$product) {
+                return response()->json(['success' => false, 'message' => 'Produto não encontrado.'], 404);
+            }
+
+            $avaibleQuantity = $product->amount - $product->minimum_stock;
+            if ($request->sell_amount > $avaibleQuantity) {
+                return response()->json(['success' => false, 'message' => 'Quantidade insuficiente em estoque.'], 400);
+            }
+
+            $product->amount -= $request->amount;
+            $product->save();
+
+            $sale = Sale::create([
+                'user_id' => auth()->id(),
+                'product_id' => $request->product_id_sell,
+                'amount' => $request->sell_amount,
+                'price' => $request->product_price,
+                'total_price' => $request->sell_amount * $request->product_price,
+                'sale_date' => now()
+            ]);
+
+            return response()->json(['success' => true, 'message' => "Venda realizada com sucesso.",
+                                    'data' => ['sale' => $sale, 'new_stock_amount' => $product->amount]]);
+
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro de validação',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao realizar venda: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     // public function detail() {}

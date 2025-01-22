@@ -211,39 +211,39 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
-                    <form form action="{{ route('stock.buy') }}" method="POST">
+                    <form action="{{ route('stock.buy') }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="product_id" class="form-label">
+                            <label for="product_id_buy" class="form-label">
                                 ID do Produto <span class="text-danger">*</span>
                             </label>
-                            <select class="form-control" id="product_id" name="product_id" required>
+                            <select class="form-control" id="product_id_buy" name="product_id_buy" required>
                                 <option value="">Selecione um produto</option>
                                 @foreach ($products as $product)
                                 <option value="{{ $product->product_id }}">{{ $product->product_id }} - {{ $product->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <p><strong>Quantidade em estoque:</strong> <span id="product_amount">-</span></p>
-                            <p><strong>Preço médio:</strong> R$ <span id="product_price">-</span></p>
-                            <p><strong>Categoria:</strong> <span id="product_category">-</span></p>
+                        <div class="mb-3 product-info" id="buy_product_info" style="display: none;">
+                            <p><strong>Quantidade em estoque:</strong> <span class="product-amount">-</span></p>
+                            <p><strong>Quantidade mínima:</strong> <span class="product-minimum">-</span></p>
+                            <p><strong>Valor em estoque: R$</strong> <span class="product-total-price">-</span></p>
                         </div>
                         <div class="mb-3">
-                            <label for="sale_amount" class="form-label">
-                                Quantidade <span class="text-danger">*</span>
+                            <label for="buy_amount" class="form-label">
+                                Quantidade a Comprar <span class="text-danger">*</span>
                             </label>
                             <input type="number" class="form-control" id="buy_amount" name="buy_amount" min="1" placeholder="Digite a quantidade" required>
                         </div>
                         <div class="mb-3">
-                            <label for="sale_price" class="form-label">
-                                Preço Unitário de Compra (R$) <span class="text-danger">*</span>
+                            <label for="buy_product_price" class="form-label">
+                                Preço Unitário (R$) <span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control" id="buy_price" name="buy_price" placeholder="Digite o preço unitário" required>
+                            <input type="text" class="form-control product-price" id="buy_product_price" name="product_price" placeholder="Preço unitário do produto" readonly>
                         </div>
                         <div class="mb-3">
-                            <label for="sale_total_price" class="form-label">
+                            <label for="buy_total_price" class="form-label">
                                 Preço Total da Compra(R$)
                             </label>
                             <input type="text" class="form-control" id="buy_total_price" placeholder="Calculado automaticamente" readonly>
@@ -271,27 +271,32 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="product_id" class="form-label">
+                            <label for="product_id_sell" class="form-label">
                                 ID do Produto <span class="text-danger">*</span>
                             </label>
-                            <select class="form-control" id="product_id" name="product_id" required>
+                            <select class="form-control" id="product_id_sell" name="product_id_sell" required>
                                 <option value="">Selecione um produto</option>
                                 @foreach ($products as $product)
                                 <option value="{{ $product->product_id }}">{{ $product->product_id }} - {{ $product->name }}</option>
                                 @endforeach
                             </select>
                         </div>
+                        <div class="mb-3 product-info" id="sell_product_info" style="display: none;">
+                            <p><strong>Quantidade em estoque:</strong> <span class="product-amount">-</span></p>
+                            <p><strong>Quantidade mínima:</strong> <span class="product-minimum">-</span></p>
+                            <p><strong>Valor em estoque: R$</strong> <span class="product-total-price">-</span></p>
+                        </div>
                         <div class="mb-3">
-                            <label for="sale_amount" class="form-label">
-                                Quantidade <span class="text-danger">*</span>
+                            <label for="sell_amount" class="form-label">
+                                Quantidade a Vender<span class="text-danger">*</span>
                             </label>
                             <input type="number" class="form-control" id="sell_amount" name="sell_amount" min="1" placeholder="Digite a quantidade" required>
                         </div>
                         <div class="mb-3">
-                            <label for="sale_price" class="form-label">
-                                Preço Unitário de Venda(R$) <span class="text-danger">*</span>
+                            <label for="sell_product_price" class="form-label">
+                                Preço Unitário (R$) <span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control" id="sell_price" name="sell_price" placeholder="Digite o preço unitário" required>
+                            <input type="text" class="form-control product-price" id="sell_product_price" name="product_price" placeholder="Preço unitário do produto" readonly>
                         </div>
                         <div class="mb-3">
                             <label for="sell_total_price" class="form-label">

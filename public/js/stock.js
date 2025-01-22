@@ -86,20 +86,20 @@ document.addEventListener("DOMContentLoaded", () => {
                             body: new FormData(form),
                             headers: { "X-Requested-With": "XMLHttpRequest" },
                         })
-                        .then((response) => response.json())
-                        .then((data) => {
-                            if (data.success) {
-                                Swal.fire("Deletado!", "O produto foi deletado.", "success").then(() => {
-                                    document.location.reload();
-                                });
-                            } else {
-                                Swal.fire("Erro!", data.message || "Erro ao deletar o produto.", "error");
-                            }
-                        })
-                        .catch((error) => {
-                            console.error("Erro na requisição AJAX:", error);
-                            Swal.fire("Erro!", "Ocorreu um erro inesperado.", "error");
-                        });
+                            .then((response) => response.json())
+                            .then((data) => {
+                                if (data.success) {
+                                    Swal.fire("Deletado!", "O produto foi deletado.", "success").then(() => {
+                                        document.location.reload();
+                                    });
+                                } else {
+                                    Swal.fire("Erro!", data.message || "Erro ao deletar o produto.", "error");
+                                }
+                            })
+                            .catch((error) => {
+                                console.error("Erro na requisição AJAX:", error);
+                                Swal.fire("Erro!", "Ocorreu um erro inesperado.", "error");
+                            });
                     }
                 });
             }
@@ -110,9 +110,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         modals.forEach((modal) => {
             modal.addEventListener("hidden.bs.modal", () => {
+
+                const productInfoDiv = modal.querySelector('.product-info');
+
                 if (form) {
                     form.reset();
                     form.classList.remove("was-validated");
+                }
+
+                if (productInfoDiv) {
+                    productInfoDiv.style.display = 'none';
                 }
             });
         });
@@ -139,49 +146,65 @@ document.addEventListener("DOMContentLoaded", () => {
             handleModalSave("sellProductModal");
         });
     }
+});
 
+function updateProductInfo(productId, modalPrefix) {
+    const productInfoDiv = document.getElementById(`${modalPrefix}_product_info`);
+    const amountInfo = productInfoDiv.querySelector('.product-amount');
+    const priceInput = document.getElementById(`${modalPrefix}_product_price`);
+    const minimumInfo = productInfoDiv.querySelector('.product-minimum');
+    const totalPriceInfo = productInfoDiv.querySelector('.product-total-price');
 
-    // Responsividade dinâmica de compra / venda
-    const productSelect = document.getElementById("product_id");
-    const amountInfo = document.getElementById("product_amount");
-    const priceInfo = document.getElementById("product_price");
-    const categoryInfo = document.getElementById("product_category");
+    if (productId) {
+        fetch(`/estoque/produto/${productId}`, {
+            method: "GET",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        })
+            .then((response) => response.json())
+            .then(data => {
+                if (data.success) {
+                    amountInfo.innerText = data.product.amount || '';
+                    priceInput.value = data.product.price ? parseFloat(data.product.price).toFixed(2) : '';
+                    minimumInfo.innerText = data.product.minimum_stock || '';
+                    totalPriceInfo.innerText = data.product.total_price ? parseFloat(data.product.total_price).toFixed(2) : '';
+                    productInfoDiv.style.display = 'block';
+                } else {
+                    alert('Erro ao buscar informações do produto.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro na requisição AJAX:', error);
+                alert('Erro ao buscar informações do produto.');
+            });
+    } else {
+        productInfoDiv.style.display = 'none';
+    }
+}
 
-    productSelect.addEventListener("change", () => {
-        const selectedoption = this.options[this.selectedIndex];
+document.getElementById("product_id_buy").addEventListener("change", (e) => {
+    updateProductInfo(e.target.value, 'buy');
+});
 
-        if (selectedoption) {
-            const amount = selectedoption.getAttribute("data-amount");
-            const price = selectedoption.getAttribute("data-price");
-            const category = selectedoption.getAttribute("data-category");
-
-            amountInfo.value = amount ? amount : "";
-            priceInfo.value = price ? parseFloat(price).toFixed(2) : "";
-            categoryInfo.value = category ? category : "";
-        } else {
-            amountInfo.value = "-";
-            priceInfo.value = "-";
-            categoryInfo.value = "-";
-        }
-    });
+document.getElementById("product_id_sell").addEventListener("change", (e) => {
+    updateProductInfo(e.target.value, 'sell');
 });
 
 
 function calculateTotalForSale() {
     const buyAmount = parseFloat(document.getElementById('buy_amount').value) || 0;
-    const buyPrice = parseFloat(document.getElementById('buy_price').value) || 0;
+    const price = parseFloat(document.getElementById('product_price').value) || 0;
     const sellAmount = parseFloat(document.getElementById('sell_amount').value) || 0;
-    const sellPrice = parseFloat(document.getElementById('sell_price').value) || 0;
-    
+
     if (buyAmount > 0) {
-        const total = buyAmount * buyPrice;
+        const total = buyAmount * price;
         document.getElementById('buy_total_price').value = total.toFixed(2);
     } else if (sellAmount > 0) {
-        const total = sellAmount * sellPrice;
+        const total = sellAmount * price;
         document.getElementById('sell_total_price').value = total.toFixed(2);
     }
 }
 document.getElementById('buy_amount').addEventListener('input', calculateTotalForSale);
-document.getElementById('buy_price').addEventListener('input', calculateTotalForSale);
+document.getElementById('product_price').addEventListener('input', calculateTotalForSale);
 document.getElementById('sell_amount').addEventListener('input', calculateTotalForSale);
-document.getElementById('sell_price').addEventListener('input', calculateTotalForSale);

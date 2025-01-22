@@ -68,6 +68,31 @@ class StockController extends Controller
         return view('stock', compact('products'));
     }
 
+    public function infoProduct($id)
+    {
+        try {
+            $product = Stock::where('user_id', auth()->id())
+                ->where('product_id', $id)
+                ->first();
+
+            if ($product) {
+                return response()->json([
+                    'success' => true,
+                    'product' => [
+                        'amount' => $product->amount,
+                        'price' => $product->price,
+                        'minimum_stock' => $product->minimum_stock,
+                        'total_price' => $product->total_price
+                    ]
+                ]);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Produto não encontrado.']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
     public function buyProduct()
     {
         dd("Teste compra");

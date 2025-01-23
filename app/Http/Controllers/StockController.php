@@ -102,16 +102,15 @@ class StockController extends Controller
 
     public function sellProduct(Request $request)
     {
-        dd($request->all());
         try {
             $request->validate([
-                "product_id" => "required|exists:stocks,product_id,user_id," . auth()->id(),
-                "amount" => "required|numeric|min:1",
+                "product_id_sell" => "required|exists:stocks,product_id,user_id," . auth()->id(),
+                "sell_amount" => "required|numeric|min:1",
                 'product_price' => 'required|numeric|min:0',
             ]);
 
             $product = Stock::where('user_id', auth()->id())
-                ->where('product_id', $request->product_id)
+                ->where('product_id', $request->product_id_sell)
                 ->first();
 
             if (!$product) {
@@ -123,7 +122,7 @@ class StockController extends Controller
                 return response()->json(['success' => false, 'message' => 'Quantidade insuficiente em estoque.'], 400);
             }
 
-            $product->amount -= $request->amount;
+            $product->amount -= $request->sell_amount;
             $product->save();
 
             $sale = Sale::create([

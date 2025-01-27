@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buy;
 use App\Models\Sale;
 use App\Models\Stock;
 use Dotenv\Exception\ValidationException;
@@ -95,9 +96,50 @@ class StockController extends Controller
         }
     }
 
-    public function buyProduct()
+    public function buyProduct(Request $request)
     {
-        dd("Teste compra");
+        try {
+            $request->validate([
+                "product_id_buy" => "required|exists:stocks,product_id,user_id," . auth()->id(),
+                "buy_amount" => "required|numeric|min:1",
+                'product_price' => 'required|numeric|min:0',
+            ]);
+
+            $product = Stock::where('user_id', auth()->id())
+                ->where('product_id', $request->product_id_buy)
+                ->first();
+
+            if (!$product) {
+                return response()->json(['success' => false, 'message' => 'Produto não encontrado.'], 404);
+            }
+
+            $product->amount += $request->buy_amount;
+            $product->save();
+
+            $buy = Buy::create([
+                'user_id' => auth()->id(),
+                'product_id' => $request->product_id_buy,
+                'amount' => $request->buy_amount,
+                'price' => $request->product_price,
+                'total_price' => $request->buy_amount * $request->product_price,
+                'buy_date' => now()
+            ]);
+
+            return response()->json(['success' => true, 'message' => "Compra realizada com sucesso.",
+                                    'data' => ['buy' => $buy, 'new_stock_amount' => $product->amount]]);
+
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro de validação',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao realizar compra: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function sellProduct(Request $request)

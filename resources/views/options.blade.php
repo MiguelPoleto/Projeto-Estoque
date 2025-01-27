@@ -50,7 +50,7 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="{{ route('sales') }}" class="text-decoration-none">
+                <a href="{{ route('transactions') }}" class="text-decoration-none">
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <i class="fas fa-shopping-cart fa-3x mb-3"></i>

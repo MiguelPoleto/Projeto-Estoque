@@ -1,5 +1,5 @@
 @extends("layout.sidebar")
-@section("title", "Estoque")
+@section("title", "Painel de Controle")
 @section("content")
 
 

@@ -160,9 +160,9 @@
                 <i class="fas fa-cogs"></i>
                 <span class="text">Estoque</span>
             </a>
-            <a href="{{ route('sales') }}" class="{{ request()->routeIs('sales') ? 'active' : '' }}">
+            <a href="{{ route('transactions') }}" class="{{ request()->routeIs('transactions') ? 'active' : '' }}">
                 <i class="fas fa-chart-line"></i>
-                <span class="text">Vendas</span>
+                <span class="text">Transações</span>
             </a>
         </div>
         <div class="profile">

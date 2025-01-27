@@ -252,7 +252,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="saveBuyProduct">Salvar</button>
+                    <button type="button" class="btn btn-success" id="saveBuyProduct">Comprar</button>
                 </div>
             </div>
         </div>
@@ -308,11 +308,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="saveSellProduct">Salvar</button>
+                    <button type="button" class="btn btn-danger" id="saveSellProduct">Vender</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Details Modal -->
 
 </main>
 

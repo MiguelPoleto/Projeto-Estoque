@@ -28,4 +28,4 @@ Route::put('/estoque/venda', [StockController::class, "sellProduct"])->middlewar
 Route::delete('/estoque/deletar', [StockController::class, "deleteProduct"])->middleware(['auth'])->name('stock.delete');
 
 Route::get('/painel', function () { return view('dashboard'); })->middleware(['auth'])->name('dashboard');
-Route::get('/vendas', function () { return view('sales'); })->middleware(['auth'])->name('sales');
+Route::get('/transacoes', function () { return view('transactions'); })->middleware(['auth'])->name('transactions');

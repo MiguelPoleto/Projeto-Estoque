@@ -60,7 +60,7 @@
                         <td>R$ {{ $product->price }}</td>
                         <td>{{ $product->is_active == 1 ? "Ativo" : "Inativo" }}</td>
                         <td>
-                            <button class="btn btn-info btn-sm">
+                            <button class="btn btn-info btn-sm" data-product-id="{{ $product->product_id }}">
                                 <i class="fas fa-eye"></i> Detalhes
                             </button>
                             <button class="btn btn-primary btn-sm">
@@ -315,6 +315,190 @@
     </div>
 
     <!-- Details Modal -->
+    <div class="modal fade" id="detailProductModal" tabindex="-1" aria-labelledby="detailProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailProductModalLabel">Detalhes do Produto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Abas -->
+                    <ul class="nav nav-tabs mb-3" id="detailModalTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="detail-basic-tab" data-bs-toggle="tab" data-bs-target="#detail-basic" type="button" role="tab" aria-controls="detail-basic" aria-selected="true">Informações Básicas</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="detail-additional-tab" data-bs-toggle="tab" data-bs-target="#detail-additional" type="button" role="tab" aria-controls="detail-additional" aria-selected="false">Informações Adicionais</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="detailModalContent">
+                        <!-- Primeira Página -->
+                        <div class="tab-pane fade show active" id="detail-basic" role="tabpanel">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <p><strong>ID do Produto:</strong> <span id="detail-product-id"></span></p>
+                                    <p><strong>Nome do Produto:</strong> <span id="detail-name"></span></p>
+                                    <p><strong>Categoria:</strong> <span id="detail-category"></span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Unidade de Medida:</strong> <span id="detail-unit"></span></p>
+                                    <p><strong>Quantidade em Estoque:</strong> <span id="detail-amount"></span></p>
+                                    <p><strong>Preço Unitário:</strong> R$ <span id="detail-price"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Segunda Página -->
+                        <div class="tab-pane fade" id="detail-additional" role="tabpanel">
+                            <div class="row mb-3">
+                                <div class="col-md-12 mb-3">
+                                    <p><strong>Descrição:</strong></p>
+                                    <p id="detail-description"></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>SKU:</strong> <span id="detail-sku"></span></p>
+                                    <p><strong>Código de Barras:</strong> <span id="detail-barcode"></span></p>
+                                    <p><strong>Marca:</strong> <span id="detail-brand"></span></p>
+                                    <p><strong>Localização:</strong> <span id="detail-location"></span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Fornecedor:</strong> <span id="detail-supplier"></span></p>
+                                    <p><strong>Contato do Fornecedor:</strong> <span id="detail-supplier-contact"></span></p>
+                                    <p><strong>Estoque Mínimo:</strong> <span id="detail-minimum-stock"></span></p>
+                                    <p><strong>Status:</strong> <span id="detail-status"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProductModalLabel">Editar Produto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('stock.edit') }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="product_id" id="edit-product-id">
+                    <div class="modal-body">
+                        <!-- Abas -->
+                        <ul class="nav nav-tabs mb-3" id="editModalTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="edit-basic-tab" data-bs-toggle="tab" data-bs-target="#edit-basic" type="button" role="tab" aria-controls="edit-basic" aria-selected="true">Informações Básicas</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="edit-additional-tab" data-bs-toggle="tab" data-bs-target="#edit-additional" type="button" role="tab" aria-controls="edit-additional" aria-selected="false">Informações Adicionais</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="editModalContent">
+                            <!-- Primeira Página -->
+                            <div class="tab-pane fade show active" id="edit-basic" role="tabpanel">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="edit-name" class="form-label">Nome do Produto <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="edit-name" name="name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="edit-category" class="form-label">Categoria <span class="text-danger">*</span></label>
+                                        <select class="form-select" id="edit-category" name="category" required>
+                                            <option value="eletronic">Eletrônicos</option>
+                                            <option value="furniture">Móveis</option>
+                                            <option value="raw_material">Vestuário</option>
+                                            <option value="others">Outros</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="edit-unit" class="form-label">Unidade de Medida <span class="text-danger">*</span></label>
+                                        <select class="form-select" id="edit-unit" name="unit" required>
+                                            <option value="pcs">Peças (pcs)</option>
+                                            <option value="kg">Quilogramas (kg)</option>
+                                            <option value="g">Gramas (g)</option>
+                                            <option value="l">Litros (l)</option>
+                                            <option value="ml">Mililitros (ml)</option>
+                                            <option value="m">Metros (m)</option>
+                                            <option value="cm">Centímetros (cm)</option>
+                                            <option value="un">Unidades (un)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="edit-price" class="form-label">Preço Unitário (R$) <span class="text-danger">*</span></label>
+                                        <input type="number" step="0.01" class="form-control" id="edit-price" name="price" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Segunda Página -->
+                            <div class="tab-pane fade" id="edit-additional" role="tabpanel">
+                                <div class="mb-3">
+                                    <label for="edit-description" class="form-label">Descrição</label>
+                                    <textarea class="form-control" id="edit-description" name="description" rows="3"></textarea>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="edit-sku" class="form-label">SKU</label>
+                                        <input type="text" class="form-control" id="edit-sku" name="sku">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="edit-barcode" class="form-label">Código de Barras</label>
+                                        <input type="text" class="form-control" id="edit-barcode" name="barcode">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="edit-supplier" class="form-label">Nome do Fornecedor</label>
+                                        <input type="text" class="form-control" id="edit-supplier" name="supplier">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="edit-supplier-contact" class="form-label">Contato do Fornecedor</label>
+                                        <input type="tel" class="form-control" id="edit-supplier-contact" name="supplier_contact" maxlength="11" minlength="11" onkeyup="phoneFormatted(this)">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="edit-brand" class="form-label">Marca</label>
+                                        <input type="text" class="form-control" id="edit-brand" name="brand">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="edit-location" class="form-label">Localização no Estoque</label>
+                                        <input type="text" class="form-control" id="edit-location" name="location">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="edit-minimum-stock" class="form-label">Estoque Mínimo</label>
+                                        <input type="number" class="form-control" id="edit-minimum-stock" name="minimum_stock" min="1">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="edit-status" class="form-label">Status</label>
+                                        <select class="form-select" id="edit-status" name="is_active">
+                                            <option value="1">Ativo</option>
+                                            <option value="0">Inativo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </main>
 

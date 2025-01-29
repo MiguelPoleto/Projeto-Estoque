@@ -193,9 +193,33 @@ class StockController extends Controller
         }
     }
 
-    // public function detail() {}
+    public function detailsProduct($id)
+    {
+        try {
+            $product = Stock::where('user_id', auth()->id())
+            ->where('product_id', $id)
+            ->first();
 
-    // public function editProduct() {}
+            if ($product) {
+                return response()->json([
+                    'success' => true,
+                    'product' => $product->toArray()
+                ]);
+
+            } else {
+                return response()->json(['success' => false, 'message' => 'Produto não encontrado.']);
+            }
+            
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+        
+    }
+
+    public function editProduct()
+    {
+
+    }
 
     public function deleteProduct()
     {

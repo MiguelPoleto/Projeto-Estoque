@@ -21,10 +21,12 @@ Route::get('/perfil', [ProfileController::class, "update"])->middleware(['auth']
 Route::post('/perfil', [ProfileController::class, "updatePost"])->middleware(['auth'])->name('profile.update');
 
 Route::get('/estoque', [StockController::class, 'listProducts'])->middleware(['auth'])->name('stock');
-Route::post('/estoque/novo', [StockController::class, "newProduct"])->middleware(['auth'])->name('stock.new');
 Route::get('/estoque/produto/{id}', [StockController::class, "infoProduct"])->middleware(['auth'])->name('stock.get');
+Route::get('/estoque/detalhes/{id}', [StockController::class, "detailsProduct"])->middleware(['auth'])->name('stock.details');
+Route::post('/estoque/novo', [StockController::class, "newProduct"])->middleware(['auth'])->name('stock.new');
 Route::put('/estoque/compra', [StockController::class, "buyProduct"])->middleware(['auth'])->name('stock.buy');
 Route::put('/estoque/venda', [StockController::class, "sellProduct"])->middleware(['auth'])->name('stock.sell');
+Route::put('/estoque/editar', [StockController::class, "editProduct"])->middleware(['auth'])->name('stock.edit');
 Route::delete('/estoque/deletar', [StockController::class, "deleteProduct"])->middleware(['auth'])->name('stock.delete');
 
 Route::get('/painel', function () { return view('dashboard'); })->middleware(['auth'])->name('dashboard');

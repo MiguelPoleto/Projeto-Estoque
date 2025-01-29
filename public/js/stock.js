@@ -218,3 +218,70 @@ document.getElementById('buy_amount').addEventListener('input', calculateTotalFo
 document.getElementById('buy_product_price').addEventListener('input', calculateTotalForSale);
 document.getElementById('sell_product_price').addEventListener('input', calculateTotalForSale);
 document.getElementById('sell_amount').addEventListener('input', calculateTotalForSale);
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.btn-info.btn-sm').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            const productIdDetail = this.getAttribute('data-product-id');
+
+            fetch(`/estoque/detalhes/${productIdDetail}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        populateDetailsModal(data.product);
+                        bootstrap.Modal.getOrCreateInstance(document.getElementById('detailProductModal')).show();
+                    } else {
+                        alert(data.message || 'Erro ao buscar informações do produto.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro: ', error);
+                    alert('Erro ao carregar os detalhes do produto.');
+                });
+        });
+    });
+});
+
+function populateDetailsModal(product) {
+    try {
+        document.getElementById('detail-product-id').textContent = product.product_id;
+        document.getElementById('detail-name').textContent = product.name;
+
+        const categoryMap = {
+            'eletronic': 'Eletrônicos',
+            'furniture': 'Móveis',
+            'raw_material': 'Vestuário',
+            'others': 'Outros'
+        };
+        document.getElementById('detail-category').textContent = categoryMap[product.category];
+
+        const unitMap = {
+            'pcs': 'Peças',
+            'kg': 'Quilogramas',
+            'g': 'Gramas',
+            'l': 'Litros',
+            'ml': 'Mililitros',
+            'm': 'Metros',
+            'cm': 'Centímetros',
+            'un': 'Unidades'
+        };
+        document.getElementById('detail-unit').textContent = unitMap[product.unit];
+
+        document.getElementById('detail-amount').textContent = product.amount;
+        document.getElementById('detail-price').textContent = parseFloat(product.price).toFixed(2);
+
+        document.getElementById('detail-description').textContent = product.description || 'Não informado';
+        document.getElementById('detail-sku').textContent = product.sku || 'Não informado';
+        document.getElementById('detail-barcode').textContent = product.barcode || 'Não informado';
+        document.getElementById('detail-supplier').textContent = product.supplier || 'Não informado';
+        document.getElementById('detail-supplier-contact').textContent = product.supplier_contact || 'Não informado';
+        document.getElementById('detail-brand').textContent = product.brand || 'Não informado';
+        document.getElementById('detail-location').textContent = product.location || 'Não informado';
+        document.getElementById('detail-minimum-stock').textContent = product.minimum_stock || 'Não informado';
+        document.getElementById('detail-status').textContent = product.is_active == 1 ? 'Ativo' : 'Inativo';
+    } catch (error) {
+        console.error('Erro ao preencher modal:', error);
+        alert('Erro ao exibir detalhes do produto.');
+    }
+}

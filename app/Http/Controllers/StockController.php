@@ -81,12 +81,7 @@ class StockController extends Controller
             if ($product) {
                 return response()->json([
                     'success' => true,
-                    'product' => [
-                        'amount' => $product->amount,
-                        'price' => $product->price,
-                        'minimum_stock' => $product->minimum_stock,
-                        'total_price' => $product->total_price
-                    ]
+                    'product' => $product->toArray()
                 ]);
             } else {
                 return response()->json(['success' => false, 'message' => 'Produto não encontrado.']);
@@ -125,9 +120,11 @@ class StockController extends Controller
                 'buy_date' => now()
             ]);
 
-            return response()->json(['success' => true, 'message' => "Compra realizada com sucesso.",
-                                    'data' => ['buy' => $buy, 'new_stock_amount' => $product->amount]]);
-
+            return response()->json([
+                'success' => true,
+                'message' => "Compra realizada com sucesso.",
+                'data' => ['buy' => $buy, 'new_stock_amount' => $product->amount]
+            ]);
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
@@ -176,9 +173,11 @@ class StockController extends Controller
                 'sale_date' => now()
             ]);
 
-            return response()->json(['success' => true, 'message' => "Venda realizada com sucesso.",
-                                    'data' => ['sale' => $sale, 'new_stock_amount' => $product->amount]]);
-
+            return response()->json([
+                'success' => true,
+                'message' => "Venda realizada com sucesso.",
+                'data' => ['sale' => $sale, 'new_stock_amount' => $product->amount]
+            ]);
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
@@ -197,28 +196,88 @@ class StockController extends Controller
     {
         try {
             $product = Stock::where('user_id', auth()->id())
-            ->where('product_id', $id)
-            ->first();
+                ->where('product_id', $id)
+                ->first();
 
             if ($product) {
                 return response()->json([
                     'success' => true,
                     'product' => $product->toArray()
                 ]);
-
             } else {
                 return response()->json(['success' => false, 'message' => 'Produto não encontrado.']);
             }
-            
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
-        
     }
 
-    public function editProduct()
+    public function editProduct(Request $request, $id)
     {
+        try {
 
+            $validated = $request->validate([
+                'product_id' => 'required|exists:stocks,product_id',
+                'name' => 'required|string|max:255',
+                'category' => 'required|in:eletronic,furniture,raw_material,others',
+                'unit' => 'required|in:pcs,kg,g,l,ml,m,cm,un',
+                'price' => 'required|numeric|min:0',
+                'description' => 'nullable|string',
+                'sku' => 'nullable|string|max:50',
+                'barcode' => 'nullable|string|max:50',
+                'supplier' => 'nullable|string|max:255',
+                'supplier_contact' => 'nullable|string|max:15',
+                'brand' => 'nullable|string|max:100',
+                'location' => 'nullable|string|max:100',
+                'minimum_stock' => 'nullable|integer|min:1',
+                'is_active' => 'required|boolean'
+            ]);
+
+            $product = Stock::where('user_id', auth()->id())
+                ->where('product_id', $id)
+                ->first();
+
+            if (!$product) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Produto não encontrado.'
+                ]);
+            }
+
+            $product->name = $validated['name'];
+            $product->category = $validated['category'];
+            $product->unit = $validated['unit'];
+            $product->price = $validated['price'];
+            $product->description = $validated['description'];
+            $product->sku = $validated['sku'];
+            $product->barcode = $validated['barcode'];
+            $product->supplier = $validated['supplier'];
+            $product->supplier_contact = $validated['supplier_contact'];
+            $product->brand = $validated['brand'];
+            $product->location = $validated['location'];
+            $product->minimum_stock = $validated['minimum_stock'];
+            $product->is_active = $validated['is_active'];
+
+            $product->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Produto atualizado com sucesso.',
+                'product' => $product
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro de validação.',
+                'errors' => $e->errors()
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao atualizar o produto.',
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     public function deleteProduct()

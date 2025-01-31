@@ -386,7 +386,11 @@
                     <h5 class="modal-title" id="editProductModalLabel">Editar Produto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                @if(isset($product) && $product->product_id)
                 <form action="{{ route('stock.edit', ['id' => $product->product_id]) }}" method="POST">
+                    @else
+                    <p>Produto não encontrado.</p>
+                    @endif
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="product_id" id="edit-product-id">

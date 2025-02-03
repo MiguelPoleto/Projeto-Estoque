@@ -1,103 +1,337 @@
-#confirmationCard,
-#confirmationEditCard {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: none;
-    z-index: 1050;
-    width: 24rem;
-    /* Ligeiramente maior para acomodar o layout */
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 2rem;
-    font-family: "Arial", sans-serif;
-    animation: fadeIn 0.3s ease-in-out;
+/* Global Improvements */
+body {
+    background-color: #f4f6f9;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Título em destaque */
-#confirmationCard h4,
-#confirmationEditCard h4 {
+.container-fluid {
+    padding: 1.5rem;
+}
+
+/* Table Enhancements */
+.table {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+.table-bordered th, .table-bordered td {
+    border: 1px solid #e9ecef;
+}
+
+/* Action Buttons Styling */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+}
+
+/* Modal Improvements */
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #007bff 0%, #3f80ff 100%);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.modal-header .modal-title {
+    font-weight: 600;
+    color: white;
+}
+
+.modal-header .btn-close {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    color: #000;
     font-size: 1.5rem;
-    color: #333333;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    text-transform: uppercase;
-    border-bottom: 2px solid #007bff;
-    /* Linha decorativa */
-    padding-bottom: 0.5rem;
+    border: none;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
 }
 
-/* Informações centralizadas */
-#confirmationCard p,
-#confirmationEditCard p {
-    font-size: 1rem;
-    color: #555555;
-    margin: 0.5rem 0;
+.modal-header .btn-close::before {
+    content: '\00d7';
+    font-size: 1.25rem;
+    color: #000;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+/* Tabs Styling */
+.nav-tabs .nav-link {
+    color: #6c757d;
+    font-weight: 500;
+    border: none;
+    margin-right: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link.active {
+    background: linear-gradient(135deg, #007bff 0%, #3f80ff 100%);
+    color: white;
+    border-radius: 8px;
+}
+
+/* Form Input Styling */
+.form-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-label .text-danger {
+    margin-left: 0.25rem;
+    color: #dc3545;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border-color: #ced4da;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Subtle Hover Effects */
+.table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+/* Badge-like Status Indicators */
+.badge-active {
+    background-color: #28a745;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.badge-inactive {
+    background-color: #dc3545;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+/* Icons */
+.fas {
+    margin-right: 0.25rem;
+}
+
+/* Buttons with Icons */
+.btn-with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-with-icon i {
+    margin-right: 0.25rem;
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+
+    .btn-group, .btn-group-vertical {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-group > .btn {
+        margin-bottom: 0.5rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .action-buttons .btn {
+        flex-grow: 1;
+    }
+}
+
+/* Melhorias na Tabela */
+.stock-table {
+    max-height: 600px;
+    overflow-y: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.stock-table .table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-header {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.table-header th {
+    padding: 1rem;
+    text-align: center;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.table td {
+    padding: 0.75rem;
+}
+
+/* Botões dentro da tabela */
+.btn-group .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    font-size: 0.8rem;
+    border-radius: 50%;
+}
+
+/* Estilização dos Badges */
+.badge-category {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 10px;
+    background: #e9ecef;
+    color: #495057;
+}
+
+.badge-active {
+    background-color: #28a745;
+    color: white;
+}
+
+.badge-inactive {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Ajustes Responsivos */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.85rem;
+    }
+
+    .btn-group {
+        display: flex;
+        flex-direction: row;
+        gap: 0.25rem;
+    }
+}
+
+/* Centralizar o conteúdo em todas as colunas */
+.table th,
+.table td {
+    vertical-align: middle !important;
+    text-align: center;
+}
+
+/* Alinhar apenas o nome do produto à esquerda */
+.table td:nth-child(2) {
     text-align: left;
 }
 
-/* Destaque nos valores */
-#confirmationCard strong,
-#confirmationEditCard strong {
-    color: #222222;
-    font-weight: bold;
+/* Ajuste específico para colunas numéricas */
+.table td:nth-child(1),
+.table td:nth-child(4),
+.table td:nth-child(5),
+.table td:nth-child(6) {
+    text-align: center;
 }
 
-/* Container para botões */
-.button-container {
+/* Ajustar o tamanho e centralização dos botões de ação */
+.table td:last-child {
+    text-align: center;
+}
+
+.btn-group {
     display: flex;
-    justify-content: space-between;
-    margin-top: 1.5rem;
+    justify-content: center;
+    gap: 0.3rem;
 }
 
-/* Botão de cancelar */
-.button-container .btn-cancel {
-    background-color: #dc3545;
-    /* Vermelho Bootstrap */
-    color: #ffffff;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.btn-group .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 0.8rem;
+    border-radius: 50%;
 }
 
-.button-container .btn-cancel:hover {
-    background-color: #b02a37;
-    /* Vermelho mais escuro no hover */
-}
-
-/* Botão de confirmar */
-.button-container .btn-confirm {
-    background-color: #28a745;
-    /* Verde Bootstrap */
-    color: #ffffff;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.button-container .btn-confirm:hover {
-    background-color: #218838;
-    /* Verde mais escuro no hover */
-}
-
-/* Animação para suavidade ao aparecer */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -60%);
+/* Responsivo */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.85rem;
     }
 
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%);
+    .btn-group {
+        gap: 0.2rem;
+    }
+
+    .btn-group .btn {
+        width: 32px;
+        height: 32px;
     }
 }

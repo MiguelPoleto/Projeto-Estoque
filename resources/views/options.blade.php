@@ -53,8 +53,8 @@
                 <a href="{{ route('transactions') }}" class="text-decoration-none">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <i class="fas fa-shopping-cart fa-3x mb-3"></i>
-                            <h5 class="card-title">Vendas</h5>
+                            <i class="fas fa-chart-line fa-3x mb-3"></i>
+                            <h5 class="card-title">Transações</h5>
                         </div>
                     </div>
                 </a>

@@ -11,144 +11,180 @@
 </head>
 
 <style>
+    :root {
+        --primary-green: #2ecc71;
+        --dark-green: #27ae60;
+        --light-green: #2ecc71;
+        --background-soft-green: #e8f5e9;
+        --text-color: #2c3e50;
+        --hover-color: #27ae60;
+        --transition-speed: 0.3s;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
     body {
         display: flex;
         min-height: 100vh;
-        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background-color: var(--background-soft-green);
+        color: var(--text-color);
     }
 
-    /* Sidebar Style */
     .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 250px;
-        height: 100%;
-        background-color: #343a40;
+        width: 280px;
+        height: 100vh;
+        background-color: white;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: column;
-        padding-top: 20px;
-        transition: width 0.3s ease;
+        transition: width var(--transition-speed) ease;
+        position: fixed;
+        left: 0;
+        top: 0;
         overflow: hidden;
+        border-right: 2px solid var(--primary-green);
     }
 
     .sidebar.minimized {
-        width: 60px;
+        width: 80px;
+    }
+
+    .sidebar-logo {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        background-color: var(--primary-green);
+        color: white;
+    }
+
+    .sidebar-logo i {
+        font-size: 24px;
+        margin-right: 10px;
+    }
+
+    .sidebar-logo .text {
+        font-weight: bold;
+        transition: opacity var(--transition-speed) ease;
+    }
+
+    .sidebar.minimized .sidebar-logo .text {
+        opacity: 0;
     }
 
     .sidebar-content {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        justify-content: center;
-        /* Centraliza os itens verticalmente */
-        align-items: center;
-        /* Alinha os itens horizontalmente */
+        flex-grow: 1;
+        padding-top: 20px;
     }
 
     .sidebar a {
-        padding: 10px 15px;
-        text-decoration: none;
-        font-size: 18px;
-        color: white;
         display: flex;
         align-items: center;
-        transition: 0.3s;
-        overflow: hidden;
-        width: 100%;
+        padding: 12px 20px;
+        text-decoration: none;
+        color: var(--text-color);
+        transition: all var(--transition-speed) ease;
+        position: relative;
+    }
+
+    .sidebar a i {
+        margin-right: 15px;
+        font-size: 20px;
+        color: var(--primary-green);
+        min-width: 25px;
+        text-align: center;
     }
 
     .sidebar a .text {
-        margin-left: 10px;
-        white-space: nowrap;
+        transition: opacity var(--transition-speed) ease;
     }
 
     .sidebar.minimized a .text {
-        display: none;
+        opacity: 0;
+        width: 0;
     }
 
-    .sidebar a:hover {
-        background-color: #007bff;
+    .sidebar a:hover,
+    .sidebar a.active {
+        background-color: var(--background-soft-green);
+        color: var(--hover-color);
     }
 
-    .sidebar .active {
-        background-color: #007bff;
+    .sidebar a::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 70%;
+        width: 4px;
+        background-color: var(--primary-green);
+        opacity: 0;
+        transition: opacity var(--transition-speed) ease;
     }
 
-    .sidebar i {
-        font-size: 20px;
+    .sidebar a.active::after {
+        opacity: 1;
     }
 
-    /* Logout button */
-    .logout {
+    .sidebar-footer {
         margin-top: auto;
-        padding-bottom: 20px;
-        width: 100%;
-        text-align: center;
+        border-top: 1px solid #eee;
     }
 
-    .logout a {
-        width: 100%;
-    }
-
-    /* Profile button */
-    .profile {
-        margin-top: auto;
-        width: 100%;
-        text-align: center;
-    }
-
-    .profile a {
-        width: 100%;
-    }
-
-    /* Main content */
-    .main-content {
-        margin-left: 250px;
-        padding: 20px;
-        flex: 1;
-        transition: margin-left 0.3s ease;
-    }
-
-    .sidebar.minimized~.main-content {
-        margin-left: 60px;
-    }
-
-    /* Toggle Button */
     .sidebar-toggle {
-        display: block;
-        background-color: #007bff;
+        width: 100%;
+        padding: 15px;
+        background-color: var(--primary-green);
         color: white;
         border: none;
-        padding: 10px;
-        font-size: 18px;
-        width: 100%;
-        text-align: left;
+        display: flex;
+        align-items: center;
         cursor: pointer;
+        transition: background-color var(--transition-speed) ease;
+    }
+
+    .sidebar-toggle:hover {
+        background-color: var(--dark-green);
     }
 
     .sidebar-toggle i {
         margin-right: 10px;
     }
 
-    .sidebar-toggle .text {
-        white-space: nowrap;
+    .main-content {
+        margin-left: 280px;
+        padding: 20px;
+        width: calc(100% - 280px);
+        transition: margin-left var(--transition-speed) ease, width var(--transition-speed) ease;
     }
 
-    .sidebar.minimized .sidebar-toggle .text {
-        display: none;
+    .sidebar.minimized~.main-content {
+        margin-left: 80px;
+        width: calc(100% - 80px);
     }
 </style>
 
 <body>
+
     <!-- Sidebar -->
     <div class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-cubes"></i>
+            <span class="text">Projeto Estoque</span>
+        </div>
+
         <button class="sidebar-toggle" onclick="toggleSidebar()">
             <i class="fas fa-bars"></i>
             <span class="text">Menu</span>
         </button>
+
         <div class="sidebar-content">
-            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
+            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}" class="active">
                 <i class="fas fa-home"></i>
                 <span class="text">Início</span>
             </a>
@@ -165,13 +201,12 @@
                 <span class="text">Transações</span>
             </a>
         </div>
-        <div class="profile">
+
+        <div class="sidebar-footer">
             <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">
                 <i class="fa-solid fa-user"></i>
                 <span class="text">Perfil</span>
             </a>
-        </div>
-        <div class="logout">
             <a href="{{ route('logout') }}" class="text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="fas fa-sign-out-alt"></i>
                 <span class="text">Sair</span>
@@ -181,6 +216,7 @@
             </form>
         </div>
     </div>
+
 
     <!-- Main Content -->
     <div class="main-content">

@@ -2,13 +2,25 @@
 @section("title", "Cadastro")
 @section("content")
 
+<style>
+    :root {
+        --primary-green: #2ecc71;
+        --dark-green: #27ae60;
+        --light-green: #2ecc71;
+        --background-soft-green: #e8f5e9;
+    }
+
+    body {
+        background-color: var(--background-soft-green);
+    }
+</style>
+
 <main>
     <div class="container py-5 position-relative">
-        <!-- Botão com ícone de casa no canto superior direito -->
         <a href="{{ route('home') }}" 
            class="btn btn-light shadow-sm position-absolute" 
            style="top: 20px; right: 20px; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center;">
-            <i class="fa fa-house text-primary" style="font-size: 20px;"></i>
+            <i class="fa fa-house" style="color: var(--dark-green); font-size: 20px;"></i>
         </a>
 
         <div class="row justify-content-center">
@@ -20,8 +32,8 @@
                 </div>
                 @endif
 
-                <div class="card shadow-lg">
-                    <h3 class="card-header text-center text-white" style="background-color: #28a745; border-radius: 12px 12px 0 0;">Cadastro</h3>
+                <div class="card shadow-lg" style="background-color: white; border-radius: 20px;">
+                    <h3 class="card-header text-center text-white" style="background-color: var(--primary-green); border-radius: 20px 20px 0 0;">Cadastro</h3>
                     <div class="card-body">
                         <form action="{{ route('register.post') }}" method="POST" id="registerForm">
                             @csrf
@@ -75,11 +87,11 @@
                             </div>
 
                             <div class="d-grid mx-auto">
-                                <button type="submit" class="btn btn-success btn-block shadow-sm">Cadastrar</button>
+                                <button type="submit" class="btn btn-block shadow-sm" style="background-color: var(--primary-green); color: white;">Cadastrar</button>
                             </div>
 
                             <div class="text-center mt-3">
-                                <a href="{{ route('login') }}" class="text-decoration-none">Já possui uma conta? <strong>Entre.</strong></a>
+                                <a href="{{ route('login') }}" class="text-decoration-none" style="color: var(--dark-green);">Já possui uma conta? <strong>Entre.</strong></a>
                             </div>
                         </form>
                     </div>

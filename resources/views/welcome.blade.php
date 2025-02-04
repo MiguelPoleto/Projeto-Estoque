@@ -1,32 +1,14 @@
 @extends("layout.default")
-@section("title", "Inicio")
+@section("title", "Início")
 @section("content")
-
-<style>
-    body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        margin: 0;
-    }
-
-    main {
-        flex: 1;
-    }
-
-    footer {
-        background-color: #007bff;
-        color: white;
-        text-align: center;
-        padding: 1rem 0;
-    }
-</style>
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route("home") }}">StockMaster</a>
+            <a class="navbar-brand" href="{{ route('home') }}">
+                <i class="bi bi-box-seam me-2"></i>StockMaster
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,19 +16,19 @@
                 <ul class="navbar-nav ms-auto">
                     @if (Auth::check())
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route("options") }}">Sistema</a>
+                        <a class="nav-link" href="{{ route('options') }}">Sistema</a>
                     </li>
                     @endif
                     @if (!Auth::check())
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route("login") }}">Login</a>
+                        <a class="nav-link" href="{{ route('login') }}">Login</a>
                     </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route("about") }}">Sobre</a>
+                        <a class="nav-link" href="{{ route('about') }}">Sobre</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route("contact") }}">Contato</a>
+                        <a class="nav-link" href="{{ route('contact') }}">Contato</a>
                     </li>
                 </ul>
             </div>
@@ -55,36 +37,59 @@
 
     <!-- Hero Section -->
     <main>
-        <div class="container-fluid bg-light text-dark py-5 text-center">
-            @if (Auth::check())
-            <h1>Bem-vindo {{ explode(' ', Auth::user()->name)[0] }}</h1>
-            <p class="lead">Gerencie seu estoque com eficiência e simplicidade.</p>
-            <a href="{{ route("options") }}" class="btn btn-primary btn-lg">Acessar Sistema</a>
-            @else
-            <h1>Bem-vindo ao StockMaster</h1>
-            <p class="lead">Gerencie seu estoque com eficiência e simplicidade.</p>
-            <a href="{{ route("login") }}" class="btn btn-primary btn-lg">Acessar Sistema</a>
-            @endif
-            <a href="{{ route("about") }}" class="btn btn-outline-primary btn-lg">Saiba Mais</a>
+        <div class="hero-section">
+            <div class="container">
+                @if (Auth::check())
+                <h1>Olá, {{ explode(' ', Auth::user()->name)[0] }}</h1>
+                <p class="lead mb-4">Gerencie seu estoque com eficiência e inteligência.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{{ route('options') }}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-box-seam me-2"></i>Acessar Sistema
+                    </a>
+                    <a href="{{ route('about') }}" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-info-circle me-2"></i>Saiba Mais
+                    </a>
+                </div>
+                @else
+                <h1>Bem-vindo ao StockMaster</h1>
+                <p class="lead mb-4">Gerencie seu estoque com eficiência e inteligência.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-door-open me-2"></i>Acessar Sistema
+                    </a>
+                    <a href="{{ route('about') }}" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-info-circle me-2"></i>Saiba Mais
+                    </a>
+                </div>
+                @endif
+            </div>
         </div>
 
         <!-- Features Section -->
-        <div class="container my-5">
-            <div class="row text-center">
-                <div class="col-md-4">
-                    <i class="bi bi-box-seam display-4 text-primary"></i>
-                    <h3>Controle de Itens</h3>
-                    <p>Adicione, remova e atualize seus itens com facilidade.</p>
-                </div>
-                <div class="col-md-4">
-                    <i class="bi bi-graph-up-arrow display-4 text-primary"></i>
-                    <h3>Relatórios Detalhados</h3>
-                    <p>Visualize relatórios para tomar decisões informadas.</p>
-                </div>
-                <div class="col-md-4">
-                    <i class="bi bi-shield-lock display-4 text-primary"></i>
-                    <h3>Segurança</h3>
-                    <p>Seus dados protegidos com autenticação e criptografia.</p>
+        <div class="features-section">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-4 mb-4">
+                        <div class="feature-card">
+                            <i class="bi bi-box-seam display-4 text-success mb-3"></i>
+                            <h3 class="mb-3">Controle de Itens</h3>
+                            <p>Gerencie seus produtos com um sistema intuitivo e eficiente.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="feature-card">
+                            <i class="bi bi-graph-up-arrow display-4 text-success mb-3"></i>
+                            <h3 class="mb-3">Relatórios Detalhados</h3>
+                            <p>Insights precisos para tomada de decisões estratégicas.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="feature-card">
+                            <i class="bi bi-shield-lock display-4 text-success mb-3"></i>
+                            <h3 class="mb-3">Segurança</h3>
+                            <p>Proteção avançada com autenticação e criptografia robustas.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -92,8 +97,19 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 StockMaster. Todos os direitos reservados.</p>
+        <div class="container">
+            <p class="mb-0">
+                &copy; 2025 StockMaster. Todos os direitos reservados.
+                <br class="d-md-none">
+                <span class="d-none d-md-inline">|</span> 
+                Desenvolvido para gestão inteligente
+            </p>
+        </div>
     </footer>
 </body>
 
 @endsection
+
+@push('styles')
+<link href="{{ asset('css/welcome.css') }}" rel="stylesheet">
+@endpush

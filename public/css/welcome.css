@@ -1,0 +1,91 @@
+:root {
+    --primary-green: #2ecc71;
+    --dark-green: #27ae60;
+    --light-green: #2ecc71;
+    --background-soft-green: #e8f5e9;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-soft-green);
+    color: #2c3e50;
+}
+
+.navbar {
+    background-color: var(--dark-green) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: white !important;
+}
+
+main {
+    flex: 1;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.features-section {
+    background-color: white;
+    padding: 4rem 0;
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
+}
+
+.feature-card {
+    background-color: #f1f8e9;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
+    transform: scale(1.05);
+}
+
+.btn-outline-primary {
+    color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-green);
+    color: white;
+}
+
+footer {
+    background-color: var(--dark-green);
+    color: white;
+    text-align: center;
+    padding: 1.5rem 0;
+}

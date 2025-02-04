@@ -28,6 +28,58 @@ body {
     border: 1px solid #e9ecef;
 }
 
+.table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+/* Centralizar o conteúdo em todas as colunas */
+.table th,
+.table td {
+    vertical-align: middle !important;
+    text-align: center;
+}
+
+/* Alinhar apenas o nome do produto à esquerda */
+.table td:nth-child(2) {
+    text-align: left;
+}
+
+/* Ajuste específico para colunas numéricas */
+.table td:nth-child(1),
+.table td:nth-child(4),
+.table td:nth-child(5),
+.table td:nth-child(6) {
+    text-align: center;
+}
+
+/* Stock Table Improvements */
+.stock-table {
+    max-height: 600px;
+    overflow-y: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.stock-table .table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-header {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.table-header th {
+    padding: 1rem;
+    text-align: center;
+}
+
 /* Action Buttons Styling */
 .btn-sm {
     padding: 0.25rem 0.5rem;
@@ -44,15 +96,34 @@ body {
     border-color: #117a8b;
 }
 
+/* Botões dentro da tabela */
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+.btn-group .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 0.8rem;
+    border-radius: 50%;
+}
+
 /* Modal Improvements */
 .modal-content {
     border-radius: 15px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     border: none;
+    background-color: #ffffff;
 }
 
 .modal-header {
-    background: linear-gradient(135deg, #007bff 0%, #3f80ff 100%);
+    background: linear-gradient(135deg, #1b9e77 0%, #157a5c 100%);
     color: white;
     padding: 1rem 1.5rem;
     border-top-left-radius: 15px;
@@ -86,39 +157,20 @@ body {
 
 .modal-body {
     padding: 1.5rem;
+    background-color: #f8f9fa;
 }
 
 .modal-footer {
-    background-color: #f8f9fa;
-    border-top: 1px solid #e9ecef;
+    background-color: #e9ecef;
+    border-top: 1px solid #ced4da;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-}
-
-/* Tabs Styling */
-.nav-tabs .nav-link {
-    color: #6c757d;
-    font-weight: 500;
-    border: none;
-    margin-right: 0.5rem;
-    transition: all 0.3s ease;
-}
-
-.nav-tabs .nav-link.active {
-    background: linear-gradient(135deg, #007bff 0%, #3f80ff 100%);
-    color: white;
-    border-radius: 8px;
 }
 
 /* Form Input Styling */
 .form-label {
     font-weight: 600;
     color: #495057;
-}
-
-.form-label .text-danger {
-    margin-left: 0.25rem;
-    color: #dc3545;
 }
 
 .form-control, .form-select {
@@ -133,13 +185,7 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-/* Subtle Hover Effects */
-.table tbody tr:hover {
-    background-color: rgba(0, 123, 255, 0.1);
-    transition: background-color 0.3s ease;
-}
-
-/* Badge-like Status Indicators */
+/* Status Badges */
 .badge-active {
     background-color: #28a745;
     color: white;
@@ -154,98 +200,6 @@ body {
     border-radius: 4px;
 }
 
-/* Icons */
-.fas {
-    margin-right: 0.25rem;
-}
-
-/* Buttons with Icons */
-.btn-with-icon {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.btn-with-icon i {
-    margin-right: 0.25rem;
-}
-
-/* Responsive Improvements */
-@media (max-width: 768px) {
-    .table-responsive {
-        font-size: 0.9rem;
-    }
-
-    .btn-group, .btn-group-vertical {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .btn-group > .btn {
-        margin-bottom: 0.5rem;
-    }
-
-    .action-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-
-    .action-buttons .btn {
-        flex-grow: 1;
-    }
-}
-
-/* Melhorias na Tabela */
-.stock-table {
-    max-height: 600px;
-    overflow-y: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-.stock-table .table {
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.table-header {
-    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-    color: white;
-    font-weight: bold;
-    position: sticky;
-    top: 0;
-    z-index: 2;
-}
-
-.table-header th {
-    padding: 1rem;
-    text-align: center;
-}
-
-.table tbody tr:hover {
-    background-color: rgba(0, 123, 255, 0.05);
-    transition: background-color 0.3s ease-in-out;
-}
-
-.table td {
-    padding: 0.75rem;
-}
-
-/* Botões dentro da tabela */
-.btn-group .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    font-size: 0.8rem;
-    border-radius: 50%;
-}
-
-/* Estilização dos Badges */
 .badge-category {
     padding: 0.4rem 0.7rem;
     font-size: 0.85rem;
@@ -255,72 +209,7 @@ body {
     color: #495057;
 }
 
-.badge-active {
-    background-color: #28a745;
-    color: white;
-}
-
-.badge-inactive {
-    background-color: #dc3545;
-    color: white;
-}
-
-/* Ajustes Responsivos */
-@media (max-width: 768px) {
-    .table-responsive {
-        font-size: 0.85rem;
-    }
-
-    .btn-group {
-        display: flex;
-        flex-direction: row;
-        gap: 0.25rem;
-    }
-}
-
-/* Centralizar o conteúdo em todas as colunas */
-.table th,
-.table td {
-    vertical-align: middle !important;
-    text-align: center;
-}
-
-/* Alinhar apenas o nome do produto à esquerda */
-.table td:nth-child(2) {
-    text-align: left;
-}
-
-/* Ajuste específico para colunas numéricas */
-.table td:nth-child(1),
-.table td:nth-child(4),
-.table td:nth-child(5),
-.table td:nth-child(6) {
-    text-align: center;
-}
-
-/* Ajustar o tamanho e centralização dos botões de ação */
-.table td:last-child {
-    text-align: center;
-}
-
-.btn-group {
-    display: flex;
-    justify-content: center;
-    gap: 0.3rem;
-}
-
-.btn-group .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    font-size: 0.8rem;
-    border-radius: 50%;
-}
-
-/* Responsivo */
+/* Responsive Improvements */
 @media (max-width: 768px) {
     .table-responsive {
         font-size: 0.85rem;

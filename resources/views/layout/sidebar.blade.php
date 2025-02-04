@@ -193,7 +193,7 @@
                 <span class="text">Painel</span>
             </a>
             <a href="{{ route('stock') }}" class="{{ request()->routeIs('stock') ? 'active' : '' }}">
-                <i class="fas fa-cogs"></i>
+                <i class="fas fa-boxes-stacked"></i>
                 <span class="text">Estoque</span>
             </a>
             <a href="{{ route('transactions') }}" class="{{ request()->routeIs('transactions') ? 'active' : '' }}">

@@ -1,0 +1,65 @@
+:root {
+    --primary-green: #2ecc71;
+    --dark-green: #27ae60;
+    --light-green: #2ecc71;
+    --background-soft-green: #e8f5e9;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--background-soft-green);
+}
+
+main {
+    flex: 1;
+}
+
+.navbar {
+    background-color: var(--primary-green) !important;
+}
+
+.navbar-brand,
+.nav-link {
+    color: white !important;
+}
+
+.nav-link.active {
+    font-weight: bold;
+}
+
+.contact-icon {
+    color: var(--dark-green);
+}
+
+footer {
+    background-color: var(--dark-green);
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.contact-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.contact-card:hover {
+    transform: scale(1.05);
+}
+
+a {
+    color: var(--dark-green);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-green);
+}

@@ -25,7 +25,7 @@ const ApiService = {
             });
             return await response.json();
         } catch (error) {
-            console.error('Error fetching product:', error);
+            console.error('Erro buscando produtos:', error);
             throw error;
         }
     },
@@ -35,7 +35,7 @@ const ApiService = {
             const response = await fetch(`/estoque/detalhes/${productId}`);
             return await response.json();
         } catch (error) {
-            console.error('Error fetching product details:', error);
+            console.error('Erro buscando detalhes dos produtos:', error);
             throw error;
         }
     },
@@ -49,7 +49,7 @@ const ApiService = {
             });
             return await response.json();
         } catch (error) {
-            console.error('Error submitting form:', error);
+            console.error('Error ao enviar o formulário:', error);
             throw error;
         }
     }

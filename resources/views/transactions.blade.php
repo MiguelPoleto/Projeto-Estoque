@@ -60,7 +60,7 @@
     <div class="row">
         <div class="col-12">
             <div class="chart-container">
-                <div id="curve_chart" style="width: 100%; height: 500px"></div>
+                <div id="curve_chart"></div>
             </div>
         </div>
     </div>

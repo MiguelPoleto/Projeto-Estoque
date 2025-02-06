@@ -77,6 +77,102 @@ const TransactionsProcessor = {
     }
 };
 
+// Responsive chart handling
+const ResponsiveChart = {
+    chart: null,
+    data: null,
+    options: {
+        title: 'Transações Mensais',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        hAxis: {
+            title: 'Mês'
+        },
+        vAxis: {
+            title: 'Valor (R$)',
+            format: 'currency'
+        },
+        colors: ['#e74c3c', '#2ecc71'],
+        animation: {
+            startup: true,
+            duration: 1000,
+            easing: 'out'
+        },
+        chartArea: {
+            width: '80%',
+            height: '70%'
+        },
+        fontSize: 12,
+        responsive: true
+    },
+
+    initialize(chartData) {
+        this.data = google.visualization.arrayToDataTable(chartData);
+        this.chart = new google.visualization.LineChart(
+            document.getElementById('curve_chart')
+        );
+        this.drawChart();
+        this.setupResizeListener();
+    },
+
+    drawChart() {
+        if (this.chart && this.data) {
+            const container = document.getElementById('curve_chart');
+            const parent = container.parentElement;
+            container.style.width = '100%';
+            container.style.height = '500px';
+
+            this.adjustOptionsForSize(parent.offsetWidth);
+            this.chart.draw(this.data, this.options);
+        }
+    },
+
+    adjustOptionsForSize(width) {
+        if (width < 600) {
+            this.options.fontSize = 10;
+            this.options.chartArea.width = '60%';
+            this.options.chartArea.height = '60%';
+        } else if (width < 900) {
+            this.options.fontSize = 11;
+            this.options.chartArea.width = '70%';
+            this.options.chartArea.height = '65%';
+        } else {
+            this.options.fontSize = 12;
+            this.options.chartArea.width = '80%';
+            this.options.chartArea.height = '70%';
+        }
+    },
+
+    setupResizeListener() {
+        let resizeTimeout;
+
+        const resizeObserver = new ResizeObserver(entries => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                this.drawChart();
+            }, 250);
+        });
+
+        const container = document.getElementById('curve_chart').parentElement;
+        resizeObserver.observe(container);
+
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar) {
+            const sidebarObserver = new MutationObserver(() => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    this.drawChart();
+                }, 250);
+            });
+
+            sidebarObserver.observe(sidebar, {
+                attributes: true,
+                attributeFilter: ['class', 'style']
+            });
+        }
+    }
+};
+
 //Transaction visualization
 const TransactionsVisualizer = {
     async initializeChart() {
@@ -90,7 +186,7 @@ const TransactionsVisualizer = {
             const montlhySells = TransactionsProcessor.processTransictions(sells);
 
             const chartData = TransactionsProcessor.formatChartData(montlhyBuys, montlhySells);
-            this.drawChart(chartData);
+            ResponsiveChart.initialize(chartData);
 
             this.updateTotals(montlhyBuys, montlhySells);
         } catch (error) {
@@ -124,39 +220,6 @@ const TransactionsVisualizer = {
 
     showError(message) {
         console.error(message);
-    },
-
-    drawChart(chartData) {
-        const data = google.visualization.arrayToDataTable(chartData);
-
-        const options = {
-            title: 'Transações Mensais',
-            curveType: 'function',
-            legend: { position: 'bottom' },
-            hAxis: {
-                title: 'Mês'
-            },
-            vAxis: {
-                title: 'Valor (R$)',
-                format: 'currency'
-            },
-            colors: ['#e74c3c', '#2ecc71'],
-            animation: {
-                startup: true,
-                duration: 1000,
-                easing: 'out'
-            },
-            chartArea: {
-                width: '80%',
-                height: '70%'
-            }
-        };
-
-        const chart = new google.visualization.LineChart(
-            document.getElementById('curve_chart')
-        );
-
-        chart.draw(data, options);
     }
 };
 

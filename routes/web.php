@@ -3,12 +3,12 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name("home");
 Route::view('/sobre', 'about')->name("about");
 Route::view('/contato', 'contact')->name("contact");
-Route::view('/opcoes', 'options')->name("options");
 
 Route::get('/login', [AuthController::class, "login"])->name("login");
 Route::post('/login', [AuthController::class, "loginPost"])->name("login.post");
@@ -30,4 +30,9 @@ Route::put('/estoque/editar/{id}', [StockController::class, "editProduct"])->mid
 Route::delete('/estoque/deletar', [StockController::class, "deleteProduct"])->middleware(['auth'])->name('stock.delete');
 
 Route::get('/painel', function () { return view('dashboard'); })->middleware(['auth'])->name('dashboard');
+
+Route::get('/opcoes', function () { return view('options'); })->middleware(['auth'])->name('options');
+
 Route::get('/transacoes', function () { return view('transactions'); })->middleware(['auth'])->name('transactions');
+Route::get('/transacoes/compras', [TransactionController::class, "getBuys"])->middleware(['auth'])->name('transactions.buys');
+Route::get('/transacoes/vendas', [TransactionController::class, "getSells"])->middleware(['auth'])->name('transactions.sells');

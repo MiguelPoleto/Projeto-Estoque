@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashBoardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\TransactionController;
@@ -29,7 +30,8 @@ Route::put('/estoque/venda', [StockController::class, "sellProduct"])->middlewar
 Route::put('/estoque/editar/{id}', [StockController::class, "editProduct"])->middleware(['auth'])->name('stock.edit');
 Route::delete('/estoque/deletar', [StockController::class, "deleteProduct"])->middleware(['auth'])->name('stock.delete');
 
-Route::get('/painel', function () { return view('dashboard'); })->middleware(['auth'])->name('dashboard');
+Route::get('/painel', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
+Route::get('/painel/transacoes', [DashboardController::class, 'getTransactions'])->middleware(['auth'])->name('dashboard.transactions');
 
 Route::get('/opcoes', function () { return view('options'); })->middleware(['auth'])->name('options');
 

@@ -7,14 +7,6 @@
     <div class="page-header mb-4">
         <div class="d-flex justify-content-between align-items-center">
             <h4 class="mb-0">Painel de Controle</h4>
-            <div class="date-filter">
-                <select class="form-select form-select-sm" id="dateRange">
-                    <option value="7">Últimos 7 dias</option>
-                    <option value="30">Últimos 30 dias</option>
-                    <option value="90">Últimos 90 dias</option>
-                    <option value="365">Este ano</option>
-                </select>
-            </div>
         </div>
     </div>
 
@@ -38,10 +30,10 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="card-subtitle mb-2 text-muted">Produtos Baixos</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Vendas do Mês</h6>
                             <h3 class="card-title mb-0" id="low-stock">--</h3>
                         </div>
-                        <i class="fas fa-exclamation-triangle card-icon text-warning"></i>
+                        <i class="fas fa-chart-line card-icon text-success"></i>
                     </div>
                 </div>
             </div>
@@ -87,7 +79,7 @@
         <div class="col-md-4">
             <div class="card dashboard-card">
                 <div class="card-body">
-                    <h5 class="card-title mb-4">Categorias</h5>
+                    <h5 class="card-title mb-4">Balanço</h5>
                     <canvas id="categoriesChart"></canvas>
                 </div>
             </div>
@@ -99,9 +91,6 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="card-title mb-0">Atividades Recentes</h5>
-                <button class="btn btn-sm btn-outline-primary">
-                    Ver Todas
-                </button>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -111,8 +100,7 @@
                             <th>Tipo</th>
                             <th>Quantidade</th>
                             <th>Data</th>
-                            <th>Usuário</th>
-                            <th>Ações</th>
+                            <th>Valor</th>
                         </tr>
                     </thead>
                     <tbody id="recent-activities">

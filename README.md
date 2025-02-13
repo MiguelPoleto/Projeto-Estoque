@@ -1,115 +1,140 @@
-# Projeto de Gerenciamento de Transações
+# Projeto Estoque
 
-## Sobre o Projeto
-Este projeto é um sistema para gerenciamento de transações de compras e vendas, permitindo a exibição e manipulação de dados financeiros de forma intuitiva.
+Este projeto é um sistema de gerenciamento de estoque desenvolvido em Laravel e Vue.js. Ele permite a administração de produtos, controle de entrada e saída, além de outras funcionalidades essenciais para o gerenciamento de um estoque.
 
 ## Tecnologias Utilizadas
-- **Front-end**:
-  - HTML, CSS (com Bootstrap)
-  - JavaScript (ES6+)
-  - jQuery
-  - SweetAlert2
 
-- **Back-end**:
-  - PHP com Laravel
-  - MySQL/MariaDB
-  - Arquitetura MVC
+- **Back-end:** PHP 8+, Laravel
+- **Banco de Dados:** MySQL/MariaDB
+- **Front-end:** Vue.js, Bootstrap
+- **Gerenciador de Pacotes:** Composer, NPM
+- **Controle de Versão:** Git/GitHub
+
+## Requisitos
+
+Antes de instalar e rodar o projeto, certifique-se de ter os seguintes requisitos instalados:
+
+- PHP 8+
+- Composer
+- Node.js e NPM
+- MySQL ou MariaDB
+- Laravel 9+
+- Git
+- Docker (opcional, caso queira rodar o projeto em contêineres)
+
+## Instalação
+
+Siga os passos abaixo para instalar e rodar o projeto:
+
+### 1. Clone o repositório
+```bash
+git clone https://github.com/MiguelPoleto/Projeto-Estoque.git
+cd Projeto-Estoque
+```
+
+### 2. Instale as dependências do Laravel
+```bash
+composer install
+```
+
+### 3. Instale as dependências do front-end
+```bash
+npm install
+```
+
+### 4. Configure o arquivo `.env`
+
+Copie o arquivo de exemplo e configure as variáveis de ambiente:
+```bash
+cp .env.example .env
+```
+Abra o arquivo `.env` e configure as credenciais do banco de dados:
+```ini
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=seu_banco
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
+```
+
+### 5. Gere a chave do aplicativo
+```bash
+php artisan key:generate
+```
+
+### 6. Execute as migrações e seeders
+```bash
+php artisan migrate --seed
+```
+Isso criará as tabelas no banco de dados e adicionará alguns dados iniciais.
+
+### 7. Inicie o servidor Laravel
+```bash
+php artisan serve
+```
+O servidor estará rodando em `http://127.0.0.1:8000`.
+
+### 8. Compilar os assets do front-end
+```bash
+npm run dev
+```
+Caso queira gerar os arquivos otimizados para produção:
+```bash
+npm run build
+```
+
+## Funcionalidades Principais
+
+- Cadastro, edição e remoção de produtos
+- Controle de entrada e saída de estoque
+- Dashboard com informações essenciais
+- Relatórios sobre movimentação de produtos
+- Autenticação de usuários e controle de permissões
 
 ## Estrutura do Projeto
 
 ```
-├── public/
-│   ├── index.html
-│   ├── css/
-│   │   ├── custom_styles.css
-│   ├── js/
-│   │   ├── app.js
-│   │   ├── services.js
-│   ├── assets/
-│
-├── src/
-│   ├── controllers/
-│   ├── models/
-│   ├── views/
-│
-├── routes/
-│   ├── web.php
-│
-├── database/
-│   ├── migrations/
-│
-├── README.md
+Projeto-Estoque/
+├── app/                # Lógica do back-end (Laravel)
+├── bootstrap/          # Inicialização do framework
+├── config/             # Configurações do sistema
+├── database/           # Migrations e seeders
+├── public/             # Arquivos públicos
+├── resources/          # Views e assets do front-end
+├── routes/             # Definição de rotas
+├── storage/            # Arquivos temporários e logs
+├── .env.example        # Modelo de configuração do ambiente
+├── composer.json       # Dependências do PHP
+├── package.json        # Dependências do JavaScript
+├── webpack.mix.js      # Configuração do Laravel Mix
 ```
 
-## Instalação e Configuração
+## Docker (Opcional)
 
-### 1. Clonar o repositório
-```sh
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
-```
+Se preferir rodar o projeto usando Docker, siga os passos:
 
-### 2. Configurar o Back-end
-Certifique-se de ter o Laravel instalado. Caso não tenha:
-```sh
-composer global require laravel/installer
+```bash
+docker-compose up -d --build
 ```
-Em seguida, copie o arquivo `.env.example` e configure as variáveis de ambiente:
-```sh
-cp .env.example .env
-php artisan key:generate
-```
-Atualize o `.env` com as credenciais do banco de dados e rode as migrações:
-```sh
-php artisan migrate
-```
+Isso inicializará os serviços necessários, incluindo um container para o Laravel e outro para o banco de dados.
 
-### 3. Rodar o Servidor
-```sh
-php artisan serve
-```
-O servidor será iniciado em `http://127.0.0.1:8000`
+## Contribuição
 
-## Como Funciona
-### **API de Compras**
-A API possui um endpoint que retorna uma lista de compras:
-```sh
-GET /transacoes/compras
-```
-Exemplo de resposta:
-```json
-[
-    { "id": 1, "produto": "Teclado", "quantidade": 2, "preco": 150.00 },
-    { "id": 2, "produto": "Mouse", "quantidade": 1, "preco": 75.50 }
-]
-```
+Caso queira contribuir com o projeto:
+1. Faça um fork do repositório.
+2. Crie uma branch com sua feature (`git checkout -b minha-feature`).
+3. Faça commit das suas mudanças (`git commit -m 'Adicionei uma nova feature'`).
+4. Envie para o repositório (`git push origin minha-feature`).
+5. Abra um Pull Request.
 
-### **Manipulação dos Dados no Front-end**
-O arquivo `app.js` realiza a busca e manipula os dados:
-```js
-const ApiService = {
-    async fetchBuys() {
-        try {
-            const response = await fetch(`transacoes/compras`);
-            return await response.json();
-        } catch (error) {
-            console.error('Erro buscando as compras:', error);
-            throw error;
-        }
-    }
-};
+## Contato
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const compras = await ApiService.fetchBuys();
-    console.log(compras);
-});
-```
+Caso tenha dúvidas ou sugestões, entre em contato:
+- GitHub: [MiguelPoleto](https://github.com/MiguelPoleto)
+- LinkedIn: [miguelpoleto](https://www.linkedin.com/in/miguelpoleto/)
+- E-mail: *miguelpoleto5@gmail.com*
+- Instagram: [@miguelsantuchi](https://www.instagram.com/miguelsantuchi/)
 
-## Melhorias Futuras
-- Implementar sistema de autenticação (Login/Registro)
-- Criar funcionalidade de vendas
-- Melhorar responsividade e design
 
-## Licença
-Este projeto está sob a licença MIT. Sinta-se livre para utilizá-lo e modificá-lo conforme necessário.
 
